@@ -71,7 +71,7 @@ locals {
             "iam:SimulatePrincipalPolicy"
           ]
           resources = [
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/VerticeGovernanceRole"
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vertice/VerticeGovernanceRole"
           ]
         }
       }
@@ -117,6 +117,7 @@ resource "aws_iam_role" "base" {
   for_each = local.roles
 
   name = each.key
+  path = "/vertice/"
 
   max_session_duration = each.value.max_session_duration
   assume_role_policy   = data.aws_iam_policy_document.assume_role[each.key].json
