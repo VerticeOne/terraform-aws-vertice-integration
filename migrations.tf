@@ -64,4 +64,29 @@ moved {
   to   = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_core_simulate_access
 }
 
+# --------------------------------------------------------------------------------------------------
+# Migrations to 1.2.0
+# Changing the structure - Policies for the VerticeGovernance role are now based on the account type
+# --------------------------------------------------------------------------------------------------
 
+moved {
+  from = module.vertice_governance_role[0].aws_iam_policy.vertice_core_access
+  to   = module.vertice_governance_role[0].aws_iam_policy.vertice_core_access[0]
+}
+
+moved {
+  from = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_core_access
+  to   = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_core_access[0]
+}
+
+
+
+moved {
+  from = module.vertice_governance_role[0].aws_iam_policy.vertice_core_simulate_access
+  to   = module.vertice_governance_role[0].aws_iam_policy.vertice_core_simulate_access[0]
+}
+
+moved {
+  from = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_core_simulate_access
+  to   = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_core_simulate_access[0]
+}

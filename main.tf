@@ -2,12 +2,14 @@ module "vertice_governance_role" {
   count  = var.governance_role_enabled ? 1 : 0
   source = "./modules/vertice-governance-role"
 
-  cur_bucket_name     = var.cur_bucket_name
-  vertice_account_ids = var.vertice_account_ids
+  cur_bucket_name                        = var.cur_bucket_name
+  vertice_account_ids                    = var.vertice_account_ids
+  account_type                           = var.account_type
+  governance_role_additional_policy_json = var.governance_role_additional_policy_json
 }
 
 module "vertice_cur_bucket" {
-  count  = var.cur_bucket_enabled ? 1 : 0
+  count  = var.cur_bucket_enabled && (var.account_type == "billing" || var.account_type == "combined") && var.cur_bucket_name != null ? 1 : 0
   source = "./modules/vertice-cur-bucket"
 
   cur_bucket_name            = var.cur_bucket_name
@@ -17,7 +19,7 @@ module "vertice_cur_bucket" {
 }
 
 module "vertice_cur_report" {
-  count  = var.cur_report_enabled ? 1 : 0
+  count  = var.cur_report_enabled && (var.account_type == "billing" || var.account_type == "combined") ? 1 : 0
   source = "./modules/vertice-cur-report"
 
   cur_report_name        = var.cur_report_name
