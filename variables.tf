@@ -1,10 +1,78 @@
-variable "cur_bucket_name" {
-  type        = string
-  description = "The name of the bucket which will be used to store the CUR data for Vertice."
-}
+########
+## General variables
+########
 
 variable "vertice_account_ids" {
   type        = list(string)
   description = "List of Account IDs, which are allowed to access the Vertice cross account role."
   default     = ["642184526628", "762729743961"]
+}
+
+variable "cur_bucket_name" {
+  type        = string
+  description = "The name of the bucket which will be used to store the CUR data for Vertice."
+  default     = null
+}
+
+########
+## Governance Role module variables
+########
+
+variable "governance_role_enabled" {
+  type        = bool
+  description = "Whether to enable the module that creates VerticeGovernance role for the Cloud Cost Optimization."
+  default     = true
+}
+
+########
+## CUR bucket module variables
+########
+
+variable "cur_bucket_enabled" {
+  type        = bool
+  description = "Whether to enable the module that creates S3 bucket for Cost Usage Report data."
+  default     = false
+}
+
+variable "cur_bucket_force_destroy" {
+  type        = bool
+  description = "A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable."
+  default     = false
+}
+
+variable "cur_bucket_versioning" {
+  type        = map(string)
+  description = "Map containing versioning configuration on the S3 bucket holding CUR data."
+  default = {
+    status     = false
+    mfa_delete = false
+  }
+}
+
+variable "cur_bucket_lifecycle_rules" {
+  type        = any
+  description = "List of maps containing configuration of object lifecycle management on the S3 bucket holding CUR data."
+  default     = []
+}
+
+########
+## CUR report module variables
+########
+
+variable "cur_report_enabled" {
+  type        = bool
+  description = "Whether to enable the module that creates S3 bucket for Cost Usage Report data."
+  default     = false
+}
+
+variable "cur_report_name" {
+  type        = string
+  description = "The name of the CUR report for Vertice."
+  default     = "vertice-cur-report"
+}
+
+variable "cur_report_s3_prefix" {
+  type        = string
+  description = "The prefix for the S3 bucket path to where the CUR data will be saved."
+  default     = ""
 }
