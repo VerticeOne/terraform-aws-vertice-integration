@@ -7,11 +7,21 @@ variable "vertice_account_ids" {
 variable "cur_bucket_name" {
   type        = string
   description = "The name of the bucket which will be used to store the CUR data for Vertice."
-  nullable    = true
   default     = null
+}
 
-  validation {
-    condition     = var.cur_bucket_name != ""
-    error_message = "The cur_bucket_name has to be either null or non-empty string."
-  }
+variable "governance_role_additional_policy_json" {
+  type        = string
+  description = "Custom additional policy in JSON format to attach to VerticeGovernance role. Default is `null` for no additional policy."
+  default     = null
+}
+
+variable "account_type" {
+  description = <<-EOT
+    The type of the AWS account. The possible values are `billing`, `member` and `combined`.
+    Use `billing` if the target account is only for billing purposes (generating CUR report and exporting it to Vertice via S3 bucket).
+    Use `member` if the account contains active workload and you want to allow `VerticeGovernance` role to perform spend optimization actions in the account on your behalf.
+    Use `combined` for both of the above.
+  EOT
+  type        = string
 }

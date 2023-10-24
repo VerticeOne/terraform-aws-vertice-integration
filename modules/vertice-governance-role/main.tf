@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "vertice_governance_assume_role" {
 resource "aws_iam_role" "vertice_governance_role" {
   name                 = "VerticeGovernanceRole"
   path                 = "/vertice/"
-  max_session_duration = 43200
+  max_session_duration = 60 * 60 * 12
 
   assume_role_policy = data.aws_iam_policy_document.vertice_governance_assume_role.json
 }
