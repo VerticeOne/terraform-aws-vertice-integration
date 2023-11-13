@@ -12,5 +12,4 @@ variable "cur_report_bucket_name" {
 variable "cur_report_s3_prefix" {
   type        = string
   description = "The prefix for the S3 bucket path to where the CUR data will be saved."
-  default     = ""
 }
