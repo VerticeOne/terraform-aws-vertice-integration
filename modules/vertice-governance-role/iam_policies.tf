@@ -1,11 +1,11 @@
 locals {
-  cur_bucket_access_enabled = (var.account_type == "billing" || var.account_type == "combined") && var.cur_bucket_name != null ? true : false
-  billing_access_enabled    = (var.account_type == "billing" || var.account_type == "combined") ? true : false
+  billing_access_enabled    = contains(["billing", "combined"], var.account_type)
+  cur_bucket_access_enabled = local.billing_access_enabled && var.cur_bucket_name != null
 
-  core_access_enabled = (var.account_type == "member" || var.account_type == "combined") ? true : false
+  core_access_enabled = contains(["member", "combined"], var.account_type)
 
   simulate_access_enabled                   = true
-  governance_role_additional_policy_enabled = var.governance_role_additional_policy_json != null ? true : false
+  governance_role_additional_policy_enabled = var.governance_role_additional_policy_json != null
 }
 
 ########
@@ -74,6 +74,26 @@ data "aws_iam_policy_document" "vertice_billing_access" {
     resources = [
       "*"
     ]
+  }
+
+  dynamic "statement" {
+    for_each = var.billing_policy_addons.ec2_ri ? [1] : []
+    content {
+      sid    = "VerticeEc2ReservedInstancesAccess"
+      effect = "Allow"
+      actions = [
+        "ec2:DeleteQueuedReservedInstances",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeInstanceTypeOfferings",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeInstances",
+        "ec2:DescribeReservedInstances",
+        "ec2:DescribeReservedInstancesOfferings",
+        "ec2:ModifyReservedInstances",
+        "ec2:PurchaseReservedInstancesOffering",
+      ]
+      resources = ["*"]
+    }
   }
 }
 
