@@ -13,6 +13,11 @@ variable "cur_bucket_name" {
 variable "governance_role_external_id" {
   type        = string
   description = "STS external ID value to require for assuming the governance role. You will receive this from Vertice. Required if governance role is to be created."
+}
+
+variable "governance_role_name_prefix" {
+  type        = string
+  description = "Prefix of the VerticeGovernance role name and names of its policies. For testing purposes. It is discouraged to set / change this."
   default     = ""
 }
 
