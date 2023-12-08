@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
 resource "aws_iam_policy" "vertice_cur_bucket_access" {
   count = local.billing_access_enabled ? 1 : 0
 
-  name   = "CURBucketAccess"
+  name   = "${var.governance_role_name_prefix}CURBucketAccess"
   policy = data.aws_iam_policy_document.vertice_cur_bucket_access[0].json
 }
 
@@ -124,7 +124,7 @@ data "aws_iam_policy_document" "vertice_billing_access" {
 resource "aws_iam_policy" "vertice_billing_access" {
   count = local.billing_access_enabled ? 1 : 0
 
-  name   = "VerticeGovernanceRolePolicy"
+  name   = "${var.governance_role_name_prefix}VerticeGovernanceRolePolicy"
   policy = data.aws_iam_policy_document.vertice_billing_access[0].json
 }
 
@@ -198,7 +198,7 @@ data "aws_iam_policy_document" "vertice_core_access" {
 resource "aws_iam_policy" "vertice_core_access" {
   count = local.core_access_enabled ? 1 : 0
 
-  name   = "VerticeCoreAccess"
+  name   = "${var.governance_role_name_prefix}VerticeCoreAccess"
   policy = data.aws_iam_policy_document.vertice_core_access[0].json
 }
 
@@ -226,7 +226,7 @@ data "aws_iam_policy_document" "vertice_core_simulate_access" {
     ]
 
     resources = [
-      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vertice/VerticeGovernanceRole"
+      "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/vertice/${var.governance_role_name_prefix}VerticeGovernanceRole"
     ]
   }
 }
@@ -234,7 +234,7 @@ data "aws_iam_policy_document" "vertice_core_simulate_access" {
 resource "aws_iam_policy" "vertice_core_simulate_access" {
   count = local.simulate_access_enabled ? 1 : 0
 
-  name   = "VerticeCoreSimulate"
+  name   = "${var.governance_role_name_prefix}VerticeCoreSimulate"
   policy = data.aws_iam_policy_document.vertice_core_simulate_access[0].json
 }
 
@@ -252,7 +252,7 @@ resource "aws_iam_role_policy_attachment" "vertice_core_simulate_access" {
 resource "aws_iam_policy" "vertice_governance_role_additional_policy" {
   count = local.governance_role_additional_policy_enabled ? 1 : 0
 
-  name   = "VerticeAdditionalPolicy"
+  name   = "${var.governance_role_name_prefix}VerticeAdditionalPolicy"
   policy = var.governance_role_additional_policy_json
 }
 
