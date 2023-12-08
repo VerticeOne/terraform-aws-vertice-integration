@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "vertice_governance_assume_role" {
 }
 
 resource "aws_iam_role" "vertice_governance_role" {
-  name                 = "VerticeGovernanceRole"
+  name                 = "${var.governance_role_name_prefix}VerticeGovernanceRole"
   path                 = "/vertice/"
   max_session_duration = 60 * 60 * 12
 
