@@ -32,4 +32,6 @@ module "vertice_cur_report" {
     aws           = aws
     aws.us-east-1 = aws.us-east-1
   }
+
+  depends_on = [module.vertice_cur_bucket]
 }
