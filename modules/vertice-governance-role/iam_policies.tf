@@ -66,6 +66,8 @@ data "aws_iam_policy_document" "vertice_billing_access" {
       "ce:Get*",
       "ce:List*",
       "cur:Describe*",
+      "organizations:Describe*",
+      "organizations:List*",
       "pricing:*",
       "savingsplans:Describe*",
       "savingsplans:List*",
