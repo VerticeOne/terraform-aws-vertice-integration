@@ -30,6 +30,7 @@ variable "billing_policy_addons" {
   description = "Enable optional add-ons for the `billing`/`combined` account IAM policy."
   type = object({
     ec2_ri = optional(bool, true),
+    rds_ri = optional(bool, true),
   })
   default = {}
 }
