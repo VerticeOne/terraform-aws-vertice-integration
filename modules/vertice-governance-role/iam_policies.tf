@@ -96,6 +96,21 @@ data "aws_iam_policy_document" "vertice_billing_access" {
       resources = ["*"]
     }
   }
+
+  dynamic "statement" {
+    for_each = var.billing_policy_addons.rds_ri ? [1] : []
+    content {
+      sid    = "VerticeRdsReservedInstancesAccess"
+      effect = "Allow"
+      actions = [
+        "rds:DescribeDBInstances",
+        "rds:DescribeReservedDBInstances",
+        "rds:DescribeReservedDBInstancesOfferings",
+        "rds:PurchaseReservedDBInstancesOffering",
+      ]
+      resources = ["*"]
+    }
+  }
 }
 
 resource "aws_iam_policy" "vertice_billing_access" {
