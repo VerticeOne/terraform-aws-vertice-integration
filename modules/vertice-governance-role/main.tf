@@ -12,6 +12,12 @@ data "aws_iam_policy_document" "vertice_governance_assume_role" {
       type        = "AWS"
       identifiers = formatlist("arn:aws:iam::%s:root", var.vertice_account_ids)
     }
+
+    condition {
+      test     = "StringLike"
+      variable = "sts:ExternalId"
+      values   = [var.sts_external_id]
+    }
   }
 }
 

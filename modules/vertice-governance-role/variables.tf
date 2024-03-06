@@ -34,3 +34,9 @@ variable "billing_policy_addons" {
   })
   default = {}
 }
+
+variable sts_external_id {
+  type        = string
+  description = "The external ID to be used in the STS AssumeRole API call. This is used to prevent the confused deputy problem."
+  default     = null
+}
