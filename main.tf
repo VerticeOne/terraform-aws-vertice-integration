@@ -5,7 +5,6 @@ module "vertice_governance_role" {
   cur_bucket_name                        = var.cur_bucket_name
   vertice_account_ids                    = var.vertice_account_ids
   account_type                           = var.account_type
-  governance_role_external_id            = var.governance_role_external_id
   governance_role_additional_policy_json = var.governance_role_additional_policy_json
   billing_policy_addons                  = var.billing_policy_addons
 }
