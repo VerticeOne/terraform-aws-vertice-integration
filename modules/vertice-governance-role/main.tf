@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "vertice_governance_assume_role" {
     }
 
     condition {
-      test     = "StringLike"
+      test     = "StringEquals"
       variable = "sts:ExternalId"
       values   = [var.governance_role_external_id]
     }
