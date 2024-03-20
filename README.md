@@ -12,8 +12,6 @@ This is an example of creating a role in your [AWS Organizations management](htt
 
 Configuring this module to create CUR S3 bucket and CUR report in your AWS Organizations management (root/payer) account is highly recommended.
 
-For the governance IAM role to be created in your account, an ExternalId needs to be set in the `governance_role_external_id` parameter. You will receive this value from Vertice.
-
 ```hcl
 data "aws_caller_identity" "current" {}
 
@@ -33,8 +31,6 @@ module "vertice_cco_integration_role" {
 
   cur_report_name      = "athena"
   cur_report_s3_prefix = "cur"
-
-  governance_role_external_id = "<provided ExternalId value>"
 
   providers = {
     aws = aws
@@ -89,7 +85,6 @@ No providers.
 | <a name="input_cur_report_s3_prefix"></a> [cur\_report\_s3\_prefix](#input\_cur\_report\_s3\_prefix) | The prefix for the S3 bucket path to where the CUR data will be saved. | `string` | no |
 | <a name="input_governance_role_additional_policy_json"></a> [governance\_role\_additional\_policy\_json](#input\_governance\_role\_additional\_policy\_json) | Custom additional policy in JSON format to attach to VerticeGovernance role. Default is null for no additional policy. | `string` | no |
 | <a name="input_governance_role_enabled"></a> [governance\_role\_enabled](#input\_governance\_role\_enabled) | Whether to enable the module that creates VerticeGovernance role for the Cloud Cost Optimization. | `bool` | no |
-| <a name="input_governance_role_external_id"></a> [governance\_role\_external\_id](#input\_governance\_role\_external\_id) | STS external ID value to require for assuming the governance role. You will receive this from Vertice. | `string` | no |
 | <a name="input_vertice_account_ids"></a> [vertice\_account\_ids](#input\_vertice\_account\_ids) | List of Account IDs, which are allowed to access the Vertice cross account role. | `list(string)` | no |
 
 ## Outputs
