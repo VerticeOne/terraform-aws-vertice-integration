@@ -34,6 +34,12 @@ variable "governance_role_enabled" {
   default     = true
 }
 
+variable "governance_role_external_id" {
+  type        = string
+  description = "STS ExternalID value to require for assuming the governance role. Not required if empty."
+  default     = null
+}
+
 variable "governance_role_additional_policy_json" {
   type        = string
   description = "Custom additional policy in JSON format to attach to VerticeGovernance role. Default is null for no additional policy."
