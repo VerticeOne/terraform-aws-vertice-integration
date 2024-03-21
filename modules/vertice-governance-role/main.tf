@@ -26,11 +26,14 @@ resource "aws_iam_role" "vertice_governance_role" {
   path                 = "/vertice/"
   max_session_duration = 60 * 60 * 12
 
-  assume_role_policy = data.aws_iam_policy_document.vertice_governance_assume_role.json
+  assume_role_policy = coalesce(
+    var.governance_role_assume_policy_json,
+    data.aws_iam_policy_document.vertice_governance_assume_role.json,
+  )
 
   lifecycle {
     precondition {
-      condition     = length(var.governance_role_external_id) > 0
+      condition     = length(var.governance_role_external_id) > 0 || var.governance_role_assume_policy_json != null
       error_message = "The ExternalId for governance role must be set."
     }
   }
