@@ -50,7 +50,7 @@ No modules.
 | <a name="input_billing_policy_addons"></a> [billing\_policy\_addons](#input\_billing\_policy\_addons) | Enable optional add-ons for the `billing`/`combined` account IAM policy. | <pre>object({<br>    ec2_ri = optional(bool, true),<br>    rds_ri = optional(bool, true),<br>  })</pre> | `{}` | no |
 | <a name="input_cur_bucket_name"></a> [cur\_bucket\_name](#input\_cur\_bucket\_name) | The name of the bucket which will be used to store the CUR data for Vertice. | `string` | `null` | no |
 | <a name="input_governance_role_additional_policy_json"></a> [governance\_role\_additional\_policy\_json](#input\_governance\_role\_additional\_policy\_json) | Custom additional policy in JSON format to attach to VerticeGovernance role. Default is `null` for no additional policy. | `string` | `null` | no |
-| <a name="input_governance_role_external_id"></a> [governance\_role\_external\_id](#input\_governance\_role\_external\_id) | STS ExternalID value to require for assuming the governance role. Not required if empty. | `string` | `null` | no |
+| <a name="input_governance_role_external_id"></a> [governance\_role\_external\_id](#input\_governance\_role\_external\_id) | STS external ID value to require for assuming the governance role. Required if the governance IAM role is to be created. You will receive this from Vertice. | `string` | `""` | no |
 | <a name="input_vertice_account_ids"></a> [vertice\_account\_ids](#input\_vertice\_account\_ids) | List of Account IDs, which are allowed to access the Vertice cross account role. | `list(string)` | <pre>[<br>  "642184526628",<br>  "762729743961"<br>]</pre> | no |
 
 ## Outputs
