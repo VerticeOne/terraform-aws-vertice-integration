@@ -12,7 +12,7 @@ variable "cur_bucket_name" {
 
 variable "governance_role_external_id" {
   type        = string
-  description = "STS external ID value to require for assuming the governance role. You will receive this from Vertice. Required if governance role is to be created."
+  description = "STS external ID value to require for assuming the governance role. Required if the governance IAM role is to be created. You will receive this from Vertice."
   default     = ""
 }
 

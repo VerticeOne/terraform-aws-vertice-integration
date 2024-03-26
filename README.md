@@ -98,8 +98,6 @@ No providers.
 |------|-------------|
 | <a name="output_cur_report_name"></a> [cur\_report\_name](#output\_cur\_report\_name) | Name of the CUR report created. |
 | <a name="output_cur_report_s3_prefix"></a> [cur\_report\_s3\_prefix](#output\_cur\_report\_s3\_prefix) | Name of the S3 prefix used by the CUR report. |
-| <a name="output_role_arns"></a> [role\_arns](#output\_role\_arns) | This output is DEPRECATED and will be removed in future releases. Use vertice\_governance\_role\_arn instead. |
-| <a name="output_role_names"></a> [role\_names](#output\_role\_names) | This output is DEPRECATED and will be removed in future releases. Use vertice\_governance\_role\_name instead. |
 | <a name="output_vertice_account_ids"></a> [vertice\_account\_ids](#output\_vertice\_account\_ids) | Account IDs of Vertice allowed to access your AWS resources. |
 | <a name="output_vertice_governance_role_arn"></a> [vertice\_governance\_role\_arn](#output\_vertice\_governance\_role\_arn) | The ARN of VerticeGovernance role created. |
 | <a name="output_vertice_governance_role_name"></a> [vertice\_governance\_role\_name](#output\_vertice\_governance\_role\_name) | The name of VerticeGovernance role created. |
