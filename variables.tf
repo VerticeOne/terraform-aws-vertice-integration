@@ -36,8 +36,8 @@ variable "governance_role_enabled" {
 
 variable "governance_role_external_id" {
   type        = string
-  description = "STS ExternalID value to require for assuming the governance role. Not required if empty."
-  default     = null
+  description = "STS external ID value to require for assuming the governance role. Required if the governance IAM role is to be created. You will receive this from Vertice."
+  default     = ""
 }
 
 variable "governance_role_additional_policy_json" {
