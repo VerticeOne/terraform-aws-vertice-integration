@@ -1,0 +1,25 @@
+---
+name: SonarCloud Scan
+"on":
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+    types:
+      - "opened"
+      - "reopened"
+      - "synchronize"
+jobs:
+  sonarcloud:
+    runs-on: ["self-hosted", "spot", "pool"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
