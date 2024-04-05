@@ -11,7 +11,7 @@ module "vertice_governance_role" {
 }
 
 module "vertice_cur_bucket" {
-  count  = var.cur_bucket_enabled && (var.account_type == "billing" || var.account_type == "combined") && var.cur_bucket_name != null ? 1 : 0
+  count  = var.cur_bucket_enabled && (var.account_type == "billing" || var.account_type == "combined") ? 1 : 0
   source = "./modules/vertice-cur-bucket"
 
   cur_bucket_name            = var.cur_bucket_name
