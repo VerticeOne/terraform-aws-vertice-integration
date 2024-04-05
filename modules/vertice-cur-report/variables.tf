@@ -7,6 +7,7 @@ variable "cur_report_name" {
 variable "cur_report_bucket_name" {
   type        = string
   description = "The name of the bucket which will be used to store the CUR data for Vertice."
+  nullable    = false
 }
 
 variable "cur_report_s3_prefix" {
