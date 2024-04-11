@@ -1,6 +1,5 @@
 locals {
-  billing_access_enabled    = contains(["billing", "combined"], var.account_type)
-  cur_bucket_access_enabled = local.billing_access_enabled && var.cur_bucket_name != null
+  billing_access_enabled = contains(["billing", "combined"], var.account_type)
 
   core_access_enabled = contains(["member", "combined"], var.account_type)
 
@@ -13,7 +12,7 @@ locals {
 ########
 
 data "aws_iam_policy_document" "vertice_cur_bucket_access" {
-  count = local.cur_bucket_access_enabled ? 1 : 0
+  count = local.billing_access_enabled ? 1 : 0
 
   statement {
     sid = "CURBucketAccess"
@@ -31,17 +30,24 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
       "arn:aws:s3:::${var.cur_bucket_name}/*"
     ]
   }
+
+  lifecycle {
+    precondition {
+      condition     = var.cur_bucket_name != null
+      error_message = "The 'cur_bucket_name' must be defined for billing/combined account."
+    }
+  }
 }
 
 resource "aws_iam_policy" "vertice_cur_bucket_access" {
-  count = local.cur_bucket_access_enabled ? 1 : 0
+  count = local.billing_access_enabled ? 1 : 0
 
   name   = "CURBucketAccess"
   policy = data.aws_iam_policy_document.vertice_cur_bucket_access[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "vertice_cur_bucket_access" {
-  count = local.cur_bucket_access_enabled ? 1 : 0
+  count = local.billing_access_enabled ? 1 : 0
 
   role       = aws_iam_role.vertice_governance_role.name
   policy_arn = aws_iam_policy.vertice_cur_bucket_access[0].arn
