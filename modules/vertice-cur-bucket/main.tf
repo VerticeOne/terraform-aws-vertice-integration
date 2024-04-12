@@ -9,7 +9,7 @@ module "vertice_cur_bucket" {
 
   attach_deny_insecure_transport_policy = true
   attach_policy                         = true
-  policy                                = data.aws_iam_policy_document.vertice_cur_bucket_access[0].json
+  policy                                = data.aws_iam_policy_document.vertice_cur_bucket_access.json
 
   versioning     = var.cur_bucket_versioning
   lifecycle_rule = var.cur_bucket_lifecycle_rules
