@@ -3,7 +3,27 @@
 ########
 
 data "aws_iam_policy_document" "vertice_cur_bucket_access" {
-  count = var.cur_bucket_name == null ? 0 : 1
+  statement {
+    sid    = "AllowSSLRequestsOnly"
+    effect = "Deny"
+
+    actions = [
+      "s3:*",
+    ]
+
+    resources = [
+      "arn:aws:s3:::${var.cur_bucket_name}",
+      "arn:aws:s3:::${var.cur_bucket_name}/*"
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values = [
+        "false"
+      ]
+    }
+  }
 
   statement {
     sid = "AllowCURBucketActions"
