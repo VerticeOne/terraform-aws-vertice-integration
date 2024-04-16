@@ -11,6 +11,11 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
       "s3:*",
     ]
 
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
     resources = [
       "arn:aws:s3:::${var.cur_bucket_name}",
       "arn:aws:s3:::${var.cur_bucket_name}/*"
