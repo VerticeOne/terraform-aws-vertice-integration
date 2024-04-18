@@ -14,6 +14,8 @@ Configuring this module to create CUR S3 bucket and CUR report in your AWS Organ
 
 For the governance IAM role to be created in your account, an ExternalId needs to be set in the `governance_role_external_id` parameter. You will receive this value from Vertice.
 
+Please note that an `aws.us-east-1` provider alias needs to be defined, since Cost and Usage Reports are only supported by AWS in that region.
+
 ```hcl
 data "aws_caller_identity" "current" {}
 
@@ -41,6 +43,12 @@ module "vertice_cco_integration_role" {
 
     aws.us-east-1 = aws.us-east-1
   }
+}
+
+# Cost and Usage Report only exists in us-east-1
+provider "aws" {
+  alias  = "us-east-1"
+  region = "us-east-1"
 }
 
 terraform {
