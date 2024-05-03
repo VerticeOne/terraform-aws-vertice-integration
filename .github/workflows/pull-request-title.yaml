@@ -1,0 +1,13 @@
+name: PR Title
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+jobs:
+  check:
+    uses: VerticeOne/github-reusable-workflows/.github/workflows/pull-request-title-checker.yaml@main
