@@ -1,0 +1,15 @@
+---
+name: Backup repository to S3
+"on":
+  schedule:
+    - cron: "42 15 * * *"
+  workflow_dispatch:
+jobs:
+  backup:
+    uses: VerticeOne/github-reusable-workflows/.github/workflows/backup.yaml@main
+    permissions:
+      contents: read
+      id-token: write
+    secrets: inherit
+    with:
+      AWS_ROLE: ${{ vars.VSS_AWS_ROLE }}
