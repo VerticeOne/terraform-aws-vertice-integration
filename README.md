@@ -45,6 +45,10 @@ module "vertice_cco_integration_role" {
   }
 }
 
+provider "aws" {
+  region = "us-west-2" # Replace with desired region for the CUR S3 bucket
+}
+
 # Cost and Usage Report only exists in us-east-1
 provider "aws" {
   alias  = "us-east-1"
