@@ -98,6 +98,8 @@ data "aws_iam_policy_document" "vertice_billing_access" {
         "ec2:DescribeReservedInstancesOfferings",
         "ec2:ModifyReservedInstances",
         "ec2:PurchaseReservedInstancesOffering",
+        "savingsplans:CreateSavingsPlan",
+        "savingsplans:DeleteQueuedSavingsPlan",
       ]
       resources = ["*"]
     }
@@ -146,6 +148,9 @@ data "aws_iam_policy_document" "vertice_core_access" {
     effect = "Allow"
 
     actions = [
+      "backup:List*",
+      "backup:Describe*",
+      "backup:Get*",
       "cloudwatch:Describe*",
       "cloudwatch:GetMetricStatistics",
       "cloudwatch:List*",
@@ -162,8 +167,13 @@ data "aws_iam_policy_document" "vertice_core_access" {
       "ecs:List*",
       "elasticache:Describe*",
       "elasticache:List*",
+      "elasticfilesystem:Describe*",
+      "elasticfilesystem:List*",
       "es:Describe*",
       "es:List*",
+      "fsx:Describe*",
+      "logs:Describe*",
+      "logs:List*",
       "organizations:Describe*",
       "organizations:List*",
       "rds:Describe*",
@@ -172,6 +182,7 @@ data "aws_iam_policy_document" "vertice_core_access" {
       "redshift:View*",
       "s3:GetBucketLocation",
       "s3:GetBucketTagging",
+      "s3:GetLifecycleConfiguration",
       "s3:List*",
       "savingsplans:Describe*",
       "savingsplans:List*",
