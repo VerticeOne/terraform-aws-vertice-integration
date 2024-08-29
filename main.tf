@@ -37,3 +37,22 @@ module "vertice_cur_report" {
 
   depends_on = [module.vertice_cur_bucket]
 }
+
+module "vertice_cor_report" {
+  count = var.cor_report_enabled && (var.account_type == "billing" || var.account_type == "combined") ? 1 : 0
+  source = "./modules/vertice-cor-report"
+
+  cor_report_name = var.cor_report_name
+  cor_report_bucket_name = var.cur_bucket_name
+  cor_report_s3_prefix = var.cor_report_s3_prefix
+  cor_columns_for_selection = var.cor_columns_for_selection
+  cor_table_configurations = var.cor_table_configurations
+
+  ## CUR report is currently available only in the us-east-1 region
+  providers = {
+    aws = aws
+    aws.us-east-1 = aws.us-east-1
+  }
+
+  depends_on = [module.vertice_cur_bucket]
+}
