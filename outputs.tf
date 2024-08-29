@@ -8,6 +8,16 @@ output "cur_report_s3_prefix" {
   value       = var.cur_report_enabled ? var.cur_report_s3_prefix : null
 }
 
+output "cor_report_name" {
+  description = "Name of the Cost Optimization Recommendations report created."
+  value       = var.cor_report_enabled ? var.cor_report_name : null
+}
+
+output "cor_report_s3_prefix" {
+  description = "Name of the S3 prefix used by the Cost Optimization Recommendations report."
+  value       = var.cor_report_enabled ? var.cor_report_s3_prefix : null
+}
+
 output "vertice_account_ids" {
   description = "Account IDs of Vertice allowed to access your AWS resources."
   value       = var.governance_role_enabled ? var.vertice_account_ids : null
