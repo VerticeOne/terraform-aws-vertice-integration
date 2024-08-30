@@ -145,11 +145,11 @@ variable "cor_columns_for_selection" {
 variable "cor_table_configurations" {
   description = "The configuration, that allows to change table parameters"
   default = {
-    include_all_recommendations = true
-    filter                      = "null"
+    INCLUDE_ALL_RECOMMENDATIONS = true
+    FILTER                      = "{}"
   }
   type = object({
-    include_all_recommendations = bool
-    filter                      = string
+    INCLUDE_ALL_RECOMMENDATIONS = bool
+    FILTER                      = string
   })
 }
