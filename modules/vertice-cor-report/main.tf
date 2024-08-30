@@ -12,10 +12,7 @@ resource "aws_bcmdataexports_export" "vertice_cor_report" {
     data_query {
       query_statement = "SELECT ${local.columns_for_selection} FROM COST_OPTIMIZATION_RECOMMENDATIONS"
       table_configurations = {
-        COST_OPTIMIZATION_RECOMMENDATIONS = {
-          INCLUDE_ALL_RECOMMENDATIONS = var.cor_table_configurations.include_all_recommendations,
-          FILTER                      = var.cor_table_configurations.filter
-        }
+        COST_OPTIMIZATION_RECOMMENDATIONS = var.cor_table_configurations
       }
     }
     destination_configurations {
