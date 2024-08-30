@@ -16,7 +16,7 @@ variable "cor_report_s3_prefix" {
 }
 
 variable "cor_columns_for_selection" {
-  default     = []
+  default     = ["account_ID", "action_type", "currency_code"]
   description = "The list of names of columns that you want to select from COST_OPTIMIZATION_RECOMMENDATIONS table"
   type        = list(string)
 }
