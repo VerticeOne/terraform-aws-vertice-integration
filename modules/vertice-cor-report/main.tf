@@ -3,7 +3,7 @@ locals {
 }
 
 data "aws_s3_bucket" "vertice_cor_bucket" {
-  bucket = var.cur_report_bucket_name
+  bucket = var.cor_report_bucket_name
 }
 
 resource "aws_bcmdataexports_export" "vertice_cor_report" {
