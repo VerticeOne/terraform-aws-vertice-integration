@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
 
     principals {
       type        = "Service"
-      identifiers = ["billingreports.amazonaws.com"]
+      identifiers = ["bcm-data-exports.amazonaws.com", "billingreports.amazonaws.com"]
     }
 
     resources = [
@@ -62,6 +62,7 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
       variable = "aws:SourceArn"
       values = [
         "arn:aws:cur:us-east-1:${data.aws_caller_identity.current.account_id}:definition/*",
+        "arn:aws:bcm-data-exports:us-east-1:${data.aws_caller_identity.current.account_id}:export/*",
       ]
     }
   }
@@ -77,7 +78,7 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
 
     principals {
       type        = "Service"
-      identifiers = ["billingreports.amazonaws.com"]
+      identifiers = ["bcm-data-exports.amazonaws.com", "billingreports.amazonaws.com"]
     }
 
     resources = [
@@ -97,6 +98,7 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
       variable = "aws:SourceArn"
       values = [
         "arn:aws:cur:us-east-1:${data.aws_caller_identity.current.account_id}:definition/*",
+        "arn:aws:bcm-data-exports:us-east-1:${data.aws_caller_identity.current.account_id}:export/*",
       ]
     }
   }
