@@ -137,7 +137,7 @@ variable "cor_report_s3_prefix" {
 }
 
 variable "cor_columns_for_selection" {
-  default     = ["account_ID", "action_type", "currency_code"]
+  default     = []
   description = "The list of names of columns that you want to select from COST_OPTIMIZATION_RECOMMENDATIONS table"
   type        = list(string)
 }
@@ -145,11 +145,11 @@ variable "cor_columns_for_selection" {
 variable "cor_table_configurations" {
   description = "The configuration, that allows to change table parameters"
   default = {
-    INCLUDE_ALL_RECOMMENDATIONS = true
+    INCLUDE_ALL_RECOMMENDATIONS = "TRUE"
     FILTER                      = "{}"
   }
   type = object({
-    INCLUDE_ALL_RECOMMENDATIONS = bool
+    INCLUDE_ALL_RECOMMENDATIONS = string
     FILTER                      = string
   })
 }
