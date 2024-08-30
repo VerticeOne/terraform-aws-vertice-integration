@@ -14,7 +14,7 @@ Sub-module responsible for the creation of an AWS Cost and Usage Report (CUR).
 
 | Name | Version   |
 |------|-----------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.64.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5.64.0 |
 | <a name="provider_aws.us-east-1"></a> [aws.us-east-1](#provider\_aws.us-east-1) | >= 5.64.0 |
 
 ## Modules
