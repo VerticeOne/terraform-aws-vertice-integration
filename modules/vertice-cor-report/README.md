@@ -1,4 +1,4 @@
-# vertice-cur-report
+# vertice-cor-report
 
 Sub-module responsible for the creation of an AWS Cost and Usage Report (CUR).
 
