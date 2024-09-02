@@ -5,9 +5,9 @@ variable "vertice_account_ids" {
 }
 
 variable "report_bucket_names" {
-  type        = string
-  description = "The name of the bucket which will be used to store the CUR data for Vertice."
-  default     = null
+  type        = list(string)
+  description = "The names of the buckets which will be used to store the CUR and COR data for Vertice."
+  default     = []
 }
 
 variable "governance_role_external_id" {
