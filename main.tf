@@ -1,6 +1,6 @@
 locals {
   s3_buckets_configurations = {
-    vertice-cur-bucket = {
+    vertice_cur_bucket = {
       bucket_name                           = var.cur_bucket_name
       force_destroy_policy                  = var.cur_bucket_force_destroy
       bucket_versioning                     = var.cur_bucket_versioning
@@ -10,7 +10,7 @@ locals {
       policy                                = ""
       bucket_enabled                        = var.cur_bucket_enabled
     }
-    vertice-cor-bucket = {
+    vertice_cor_bucket = {
       bucket_name                           = var.cor_bucket_name
       force_destroy_policy                  = var.cor_bucket_force_destroy
       bucket_versioning                     = var.cor_bucket_versioning
