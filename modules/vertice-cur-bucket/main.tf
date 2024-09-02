@@ -19,7 +19,7 @@ module "vertice_cur_bucket" {
   version  = "3.15.1"
 
   bucket        = each.value.bucket_name
-  force_destroy = each.value.bucket_force_destroy
+  force_destroy = each.value.force_destroy_policy
 
   attach_deny_insecure_transport_policy = each.value.attach_deny_insecure_transport_policy
   attach_policy                         = each.value.attach_policy
