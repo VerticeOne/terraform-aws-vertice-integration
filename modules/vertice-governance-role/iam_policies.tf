@@ -5,6 +5,8 @@ locals {
 
   simulate_access_enabled                   = true
   governance_role_additional_policy_enabled = var.governance_role_additional_policy_json != null
+
+  s3_resource_list = flatten([for bucket in var.report_bucket_names : ["arn:aws:s3:::${bucket}", "arn:aws:s3:::${bucket}/*"]])
 }
 
 ########
@@ -25,16 +27,13 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
       "s3:GetObject"
     ]
 
-    resources = [
-      "arn:aws:s3:::${var.cur_bucket_name}",
-      "arn:aws:s3:::${var.cur_bucket_name}/*"
-    ]
+    resources = local.s3_resource_list
   }
 
   lifecycle {
     precondition {
-      condition     = var.cur_bucket_name != null
-      error_message = "The 'cur_bucket_name' must be defined for billing/combined account."
+      condition     = length(var.report_bucket_names) == 2
+      error_message = "The 'cur_bucket_name' and 'cor_bucket_name' must be defined for billing/combined account."
     }
   }
 }

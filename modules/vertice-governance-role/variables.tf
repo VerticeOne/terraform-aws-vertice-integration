@@ -4,7 +4,7 @@ variable "vertice_account_ids" {
   default     = ["642184526628", "762729743961"]
 }
 
-variable "cur_bucket_name" {
+variable "report_bucket_names" {
   type        = string
   description = "The name of the bucket which will be used to store the CUR data for Vertice."
   default     = null
