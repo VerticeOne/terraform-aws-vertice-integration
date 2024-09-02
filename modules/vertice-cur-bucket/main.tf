@@ -1,5 +1,5 @@
 locals {
-  s3_policies_from_template = templatefile("buckets_policies.json.tpl", {
+  s3_policies_from_template = templatefile("${path.module}/buckets_policies.json.tftpl", {
     "cur_bucket_name" = try(var.buckets_configurations["vertice-cur-bucket"]["bucket_name"], "vertice-cur-reports-athena")
     "cor_bucket_name" = try(var.buckets_configurations["vertice-cor-bucket"]["bucket_name"], "vertice-cor-reports")
     "account_id"      = data.aws_caller_identity.current.account_id
