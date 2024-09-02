@@ -1,8 +1,37 @@
+locals {
+  s3_buckets_configurations = {
+    vertice-cur-bucket = {
+      bucket_name                           = var.cur_bucket_name
+      force_destroy_policy                  = var.cur_bucket_force_destroy
+      bucket_versioning                     = var.cur_bucket_versioning
+      bucket_lifecycle_rules                = var.cur_bucket_lifecycle_rules
+      attach_deny_insecure_transport_policy = true
+      attach_policy                         = true
+      policy                                = ""
+      bucket_enabled                        = var.cur_bucket_enabled
+    }
+    vertice-cor-bucket = {
+      bucket_name                           = var.cor_bucket_name
+      force_destroy_policy                  = var.cor_bucket_force_destroy
+      bucket_versioning                     = var.cor_bucket_versioning
+      bucket_lifecycle_rules                = var.cor_bucket_lifecycle_rules
+      attach_deny_insecure_transport_policy = false
+      attach_policy                         = true
+      policy                                = ""
+      bucket_enabled                        = var.cor_bucket_enabled
+    }
+  }
+  s3_bucket_enabled = contains([var.cur_bucket_enabled, var.cor_bucket_enabled], true)
+  s3_buckets_enabled_configuration = {
+    for bucket_key, bucket_conf in local.s3_buckets_configurations : bucket_key => bucket_conf if bucket_conf.bucket_enabled
+  }
+}
+
 module "vertice_governance_role" {
   count  = var.governance_role_enabled ? 1 : 0
   source = "./modules/vertice-governance-role"
 
-  cur_bucket_name                        = var.cur_bucket_name
+  report_bucket_names                    = [var.cur_bucket_name, var.cor_bucket_name]
   vertice_account_ids                    = var.vertice_account_ids
   account_type                           = var.account_type
   governance_role_external_id            = var.governance_role_external_id
@@ -12,13 +41,10 @@ module "vertice_governance_role" {
 }
 
 module "vertice_cur_bucket" {
-  count  = var.cur_bucket_enabled && (var.account_type == "billing" || var.account_type == "combined") ? 1 : 0
+  count  = local.s3_bucket_enabled && (var.account_type == "billing" || var.account_type == "combined") ? 1 : 0
   source = "./modules/vertice-cur-bucket"
 
-  cur_bucket_name            = var.cur_bucket_name
-  cur_bucket_force_destroy   = var.cur_bucket_force_destroy
-  cur_bucket_versioning      = var.cur_bucket_versioning
-  cur_bucket_lifecycle_rules = var.cur_bucket_lifecycle_rules
+  buckets_configurations = local.s3_buckets_enabled_configuration
 }
 
 module "vertice_cur_report" {
@@ -43,7 +69,7 @@ module "vertice_cor_report" {
   source = "./modules/vertice-cor-report"
 
   cor_report_name           = var.cor_report_name
-  cor_report_bucket_name    = var.cur_bucket_name
+  cor_report_bucket_name    = var.cor_bucket_name
   cor_report_s3_prefix      = var.cor_report_s3_prefix
   cor_columns_for_selection = var.cor_columns_for_selection
   cor_table_configurations  = var.cor_table_configurations

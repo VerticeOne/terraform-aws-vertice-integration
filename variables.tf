@@ -8,12 +8,6 @@ variable "vertice_account_ids" {
   default     = ["642184526628", "762729743961"]
 }
 
-variable "cur_bucket_name" {
-  type        = string
-  description = "The name of the bucket which will be used to store the CUR data for Vertice."
-  default     = null
-}
-
 variable "account_type" {
   description = <<-EOT
     The type of the AWS account. The possible values are `billing`, `member` and `combined`.
@@ -65,6 +59,13 @@ variable "billing_policy_addons" {
 ## CUR bucket module variables
 ########
 
+variable "cur_bucket_name" {
+  type        = string
+  description = "The name of the bucket which will be used to store the CUR data for Vertice."
+  nullable    = false
+  default     = "vertice-cur-reports-athena  "
+}
+
 variable "cur_bucket_enabled" {
   type        = bool
   description = "Whether to enable the module that creates S3 bucket for Cost Usage Report data."
@@ -98,7 +99,7 @@ variable "cur_bucket_lifecycle_rules" {
 
 variable "cur_report_enabled" {
   type        = bool
-  description = "Whether to enable the module that creates S3 bucket for Cost Usage Report data."
+  description = "Whether to enable the module that creates S3 buckets for Cost Usage Report data and Cost Optimization Recommendations data."
   default     = false
 }
 
@@ -158,4 +159,42 @@ variable "cor_table_configurations" {
     INCLUDE_ALL_RECOMMENDATIONS = string
     FILTER                      = string
   })
+}
+
+########
+## COR bucket module variables
+########
+
+variable "cor_bucket_name" {
+  type        = string
+  description = "The name of the bucket which will be used to store the Cost Optimization Recommendations data for Vertice."
+  nullable    = false
+  default     = "vertice-cor-reports"
+}
+
+variable "cor_bucket_enabled" {
+  type        = bool
+  description = "Whether to enable the module that creates S3 bucket for Cost Optimization Recommendations data."
+  default     = false
+}
+
+variable "cor_bucket_force_destroy" {
+  type        = bool
+  description = "A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable."
+  default     = false
+}
+
+variable "cor_bucket_versioning" {
+  type        = map(string)
+  description = "Map containing versioning configuration on the S3 bucket holding Cost Optimization Recommendations data."
+  default = {
+    status     = false
+    mfa_delete = false
+  }
+}
+
+variable "cor_bucket_lifecycle_rules" {
+  type        = any
+  description = "List of maps containing configuration of object lifecycle management on the S3 bucket holding Cost Optimization Recommendations data."
+  default     = []
 }
