@@ -18,12 +18,12 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
   dynamic "statement" {
     for_each = each.value
     content {
-      sid       = try(statement.value["sid"], false) ? statement.value["sid"] : null
+      sid       = can(statement.value["sid"]) ? statement.value["sid"] : null
       actions   = statement.value["action"]
       effect    = statement.value["effect"]
       resources = statement.value["resources"]
       dynamic "condition" {
-        for_each = try(statement.value["condition"], false) ? toset(statement.value["condition"]) : []
+        for_each = can(statement.value["condition"]) ? toset(statement.value["condition"]) : []
         content {
           test     = condition.value["test"]
           values   = condition.value["values"]
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
         }
       }
       dynamic "principals" {
-        for_each = try(statement.value["principals"], false) ? toset(statement.value["principals"]) : []
+        for_each = can(statement.value["principals"]) ? toset(statement.value["principals"]) : []
         content {
           type        = principals.value["type"]
           identifiers = principals.value["identifiers"]
