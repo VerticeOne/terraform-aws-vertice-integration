@@ -2,41 +2,102 @@
 ## Managed policy for the CUR bucket to grant R/W access to AWS billingreports
 ########
 
-locals {
-  policies = {
-    for bucket_key, bucket_conf in var.buckets_configurations : bucket_key =>
-    [for policy in bucket_conf["policy"] :
-      merge(policy, { condition = [for condition in policy["condition"] :
-        merge(condition, { values = [for value in condition["values"] :
-        replace(value, "AWS_ACCOUNT_ID", data.aws_caller_identity.current.account_id)] })
-      ] })
-  ] }
-}
-
 data "aws_iam_policy_document" "vertice_cur_bucket_access" {
-  for_each = local.policies
-  dynamic "statement" {
-    for_each = each.value
-    content {
-      sid       = can(statement.value["sid"]) ? statement.value["sid"] : null
-      actions   = statement.value["action"]
-      effect    = statement.value["effect"]
-      resources = statement.value["resources"]
-      dynamic "condition" {
-        for_each = can(statement.value["condition"]) ? toset(statement.value["condition"]) : []
-        content {
-          test     = condition.value["test"]
-          values   = condition.value["values"]
-          variable = condition.value["variable"]
-        }
-      }
-      dynamic "principals" {
-        for_each = can(statement.value["principals"]) ? toset(statement.value["principals"]) : []
-        content {
-          type        = principals.value["type"]
-          identifiers = principals.value["identifiers"]
-        }
-      }
+  statement {
+    sid    = "AllowSSLRequestsOnly"
+    effect = "Deny"
+
+    actions = [
+      "s3:*",
+    ]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    resources = [
+      "arn:aws:s3:::${var.cur_bucket_name}",
+      "arn:aws:s3:::${var.cur_bucket_name}/*"
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values = [
+        "false"
+      ]
+    }
+  }
+
+  statement {
+    sid = "AllowCURBucketActions"
+
+    effect = "Allow"
+
+    actions = [
+      "s3:GetBucketAcl",
+      "s3:GetBucketPolicy",
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["billingreports.amazonaws.com"]
+    }
+
+    resources = [
+      "arn:aws:s3:::${var.cur_bucket_name}",
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values = [
+        data.aws_caller_identity.current.account_id,
+      ]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceArn"
+      values = [
+        "arn:aws:cur:us-east-1:${data.aws_caller_identity.current.account_id}:definition/*",
+      ]
+    }
+  }
+
+  statement {
+    sid = "AllowCURBucketObjectActions"
+
+    effect = "Allow"
+
+    actions = [
+      "s3:PutObject",
+    ]
+
+    principals {
+      type        = "Service"
+      identifiers = ["billingreports.amazonaws.com"]
+    }
+
+    resources = [
+      "arn:aws:s3:::${var.cur_bucket_name}/*",
+    ]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values = [
+        data.aws_caller_identity.current.account_id,
+      ]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceArn"
+      values = [
+        "arn:aws:cur:us-east-1:${data.aws_caller_identity.current.account_id}:definition/*",
+      ]
     }
   }
 }
