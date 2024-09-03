@@ -1,6 +1,6 @@
 data "aws_caller_identity" "current" {}
 
-module "vertice_cur_bucket" {
+module "vertice_cor_bucket" {
   source  = "terraform-aws-modules/s3-bucket/aws"
   version = "3.15.1"
 
