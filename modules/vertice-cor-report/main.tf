@@ -33,4 +33,6 @@ resource "aws_bcmdataexports_export" "vertice_cor_report" {
       frequency = "SYNCHRONOUS"
     }
   }
+
+  provider = aws.us-east-1
 }
