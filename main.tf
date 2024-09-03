@@ -63,7 +63,7 @@ locals {
           sid       = "AllowCURBucketObjectActions"
           effect    = "Allow"
           action    = ["s3:PutObject"]
-          resources = ["arn:aws:s3:::${var.cur_bucket_name}", ]
+          resources = ["arn:aws:s3:::${var.cur_bucket_name}/*", ]
           principals = [
             {
               type        = "Service"

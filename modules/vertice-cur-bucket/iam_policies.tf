@@ -9,7 +9,7 @@ locals {
       merge(policy, { condition = [for condition in policy["condition"] :
         merge(condition, { values = [for value in condition["values"] :
         replace(value, "AWS_ACCOUNT_ID", data.aws_caller_identity.current.account_id)] })
-      if condition["test"] != "Bool"] })
+      ] })
   ] }
 }
 
