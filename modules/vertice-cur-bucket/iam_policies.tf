@@ -5,13 +5,12 @@
 locals {
   policies = {
     for bucket_key, bucket_conf in var.buckets_configurations : bucket_key =>
-    { policy = [for policy in bucket_conf["policy"] :
+    [for policy in bucket_conf["policy"] :
       merge(policy, { condition = [for condition in policy["condition"] :
         merge(condition, { values = [for value in condition["values"] :
         replace(value, "AWS_ACCOUNT_ID", data.aws_caller_identity.current.account_id)] })
       if condition["test"] != "Bool"] })
-    ] }
-  }
+  ] }
 }
 
 data "aws_iam_policy_document" "vertice_cur_bucket_access" {
