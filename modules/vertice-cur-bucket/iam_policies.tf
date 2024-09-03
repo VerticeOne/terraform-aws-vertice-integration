@@ -15,8 +15,9 @@ locals {
 }
 
 data "aws_iam_policy_document" "vertice_cur_bucket_access" {
+  for_each = local.policies
   dynamic "statement" {
-    for_each = local.policies
+    for_each = each.value
     content {
       sid       = try(statement.value["sid"], false) ? statement.value["sid"] : null
       actions   = statement.value["action"]
