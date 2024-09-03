@@ -15,12 +15,12 @@ data "aws_iam_policy_document" "vertice_cor_bucket_access" {
 
     principals {
       type        = "Service"
-      identifiers = ["billingreports.amazonaws.com", "bcm-data-exports.amazonaws.com"]
+      identifiers = ["bcm-data-exports.amazonaws.com", "billingreports.amazonaws.com"]
     }
 
     resources = [
-      "arn:aws:s3:::${var.cor_bucket_name}",
-      "arn:aws:s3:::${var.cor_bucket_name}/*"
+      "arn:aws:s3:::${var.cor_bucket_name}/*",
+      "arn:aws:s3:::${var.cor_bucket_name}"
     ]
 
     condition {
