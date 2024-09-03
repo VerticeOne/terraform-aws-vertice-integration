@@ -10,7 +10,7 @@ module "vertice_cur_bucket" {
 
   attach_deny_insecure_transport_policy = each.value.attach_deny_insecure_transport_policy
   attach_policy                         = each.value.attach_policy
-  policy                                = data.aws_iam_policy_document.vertice_cur_bucket_access[each.key]
+  policy                                = data.aws_iam_policy_document.vertice_cur_bucket_access[each.key].json
 
   versioning     = each.value.bucket_versioning
   lifecycle_rule = each.value.bucket_lifecycle_rules
