@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "vertice_cor_bucket_access" {
     ]
 
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "aws:SourceAccount"
       values = [
         data.aws_caller_identity.current.account_id,
@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "vertice_cor_bucket_access" {
     }
 
     condition {
-      test     = "StringEquals"
+      test     = "StringLike"
       variable = "aws:SourceArn"
       values = [
         "arn:aws:cur:us-east-1:${data.aws_caller_identity.current.account_id}:definition/*",
