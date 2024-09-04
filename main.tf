@@ -134,13 +134,14 @@ locals {
     for bucket_key, bucket_conf in local.s3_buckets_configurations : bucket_key => bucket_conf
     if bucket_conf.bucket_enabled
   }
+  s3_buckets_governance = local.s3_buckets_enabled_configuration[*].bucket_name
 }
 
 module "vertice_governance_role" {
   count  = var.governance_role_enabled ? 1 : 0
   source = "./modules/vertice-governance-role"
 
-  report_bucket_names                    = [var.cur_bucket_name, var.cor_bucket_name]
+  report_bucket_names                    = local.s3_buckets_governance
   vertice_account_ids                    = var.vertice_account_ids
   account_type                           = var.account_type
   governance_role_external_id            = var.governance_role_external_id
