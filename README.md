@@ -6,11 +6,14 @@ This module handles creating a role to be used by Vertice Cloud Cost Optimizatio
 
 If the account is your AWS Management account you should configure a [Cost and Usage Reports (CUR)](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html) export, and then provide the `cur_bucket_name` variable to allow the role access to the CUR data within S3.
 
+You can now also configure a [Cost optimization recommendations report (COR)](https://docs.aws.amazon.com/cur/latest/userguide/dataexports-create-standard.html) export, and then provide the `cor_bucket_name` variable to allow the role access to COR data within S3.
+
 ## Configure access for your AWS Management Account with Cost and Usage Reports (CUR) export configured
 
 This is an example of creating a role in your [AWS Organizations management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html) account (root/payer) where you host your CUR reports in a S3 bucket which will be accessed by the Vertice cross-account IAM role.
 
 Configuring this module to create CUR S3 bucket and CUR report in your AWS Organizations management (root/payer) account is highly recommended.
+If you want to use the Cost optimization recommendations report please configure this module to create COR S3 and COR report in your AWS Organizations management (root/payer) account.
 
 For the governance IAM role to be created in your account, an ExternalId needs to be set in the `governance_role_external_id` parameter. You will receive this value from Vertice.
 
@@ -26,8 +29,6 @@ module "vertice_cco_integration_role" {
   cur_bucket_enabled = true
   cur_report_enabled = true
 
-  cor_report_enabled = true
-
   billing_policy_addons = {
     # allow managing EC2 Reserved Instances in billing policy
     ec2_ri = true
@@ -37,6 +38,17 @@ module "vertice_cco_integration_role" {
 
   cur_report_name      = "athena"
   cur_report_s3_prefix = "cur"
+  
+  # If you want to enable Cost Optimization Recommendations report, you need to add lines below
+  # COR section start
+  cor_bucket_enabled = true
+  cor_report_enabled = true
+  
+  cor_bucket_name = "vertice-cor-reports-${data.aws_caller_identity.current.account_id}"
+
+  cor_report_name      = "vertice-cor-report"
+  cor_report_s3_prefix = "cor"
+  # COR section end
 
   governance_role_external_id = "<provided ExternalId value>"
 
