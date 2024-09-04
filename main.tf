@@ -1,6 +1,6 @@
 locals {
   s3_buckets_configurations = {
-    vertice_cur_bucket = {
+    cur = {
       bucket_name                           = var.cur_bucket_name
       force_destroy_policy                  = var.cur_bucket_force_destroy
       bucket_versioning                     = var.cur_bucket_versioning
@@ -86,7 +86,7 @@ locals {
       ]
       bucket_enabled = var.cur_bucket_enabled
     }
-    vertice_cor_bucket = {
+    cor = {
       bucket_name                           = var.cor_bucket_name
       force_destroy_policy                  = var.cor_bucket_force_destroy
       bucket_versioning                     = var.cor_bucket_versioning
@@ -100,22 +100,23 @@ locals {
           "s3:PutObject",
         "s3:GetBucketPolicy"]
         resources = [
-          "arn:aws:s3:::${var.cor_bucket_name}",
-        "arn:aws:s3:::${var.cor_bucket_name}/*"]
+          "arn:aws:s3:::${var.cor_bucket_name}/*",
+          "arn:aws:s3:::${var.cor_bucket_name}"
+        ]
         principals = [
           {
             type        = "Service"
-            identifiers = ["billingreports.amazonaws.com", "bcm-data-exports.amazonaws.com"]
+            identifiers = ["bcm-data-exports.amazonaws.com", "billingreports.amazonaws.com"]
           }
         ]
         condition = [
           {
-            test     = "StringEquals"
+            test     = "StringLike"
             variable = "aws:SourceAccount"
             values   = ["AWS_ACCOUNT_ID"]
           },
           {
-            test     = "StringEquals"
+            test     = "StringLike"
             variable = "aws:SourceArn"
             values = [
               "arn:aws:cur:us-east-1:AWS_ACCOUNT_ID:definition/*",
@@ -148,9 +149,9 @@ module "vertice_governance_role" {
   billing_policy_addons                  = var.billing_policy_addons
 }
 
-module "vertice_cur_bucket" {
+module "vertice_report_buckets" {
   count  = local.s3_bucket_enabled && (var.account_type == "billing" || var.account_type == "combined") ? 1 : 0
-  source = "./modules/vertice-cur-bucket"
+  source = "./modules/vertice-report-buckets"
 
   buckets_configurations = local.s3_buckets_enabled_configuration
 }
@@ -171,7 +172,7 @@ module "vertice_cur_report" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  depends_on = [module.vertice_cur_bucket]
+  depends_on = [module.vertice_report_buckets[0].module.vertice_report_buckets["cur"]]
 }
 
 module "vertice_cor_report" {
@@ -184,11 +185,11 @@ module "vertice_cor_report" {
   cor_columns_for_selection = var.cor_columns_for_selection
   cor_table_configurations  = var.cor_table_configurations
 
-  ## CUR report is currently available only in the us-east-1 region
+  ## COR report is currently available only in the us-east-1 region
   providers = {
     aws           = aws
     aws.us-east-1 = aws.us-east-1
   }
 
-  depends_on = [module.vertice_cur_bucket]
+  depends_on = [module.vertice_report_buckets[0].module.vertice_report_buckets["cor"].aws_s3_bucket_policy]
 }

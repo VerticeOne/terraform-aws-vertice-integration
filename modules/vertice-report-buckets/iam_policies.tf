@@ -13,7 +13,7 @@ locals {
   ] }
 }
 
-data "aws_iam_policy_document" "vertice_cur_bucket_access" {
+data "aws_iam_policy_document" "vertice_report_bucket_access" {
   for_each = local.policies
   dynamic "statement" {
     for_each = each.value

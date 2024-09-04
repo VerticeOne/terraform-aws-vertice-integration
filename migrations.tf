@@ -30,8 +30,6 @@ moved {
   to   = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_cur_bucket_access[0]
 }
 
-
-
 moved {
   from = data.aws_iam_policy_document.custom["VerticeGovernanceRole_VerticeCoreAccess"]
   to   = module.vertice_governance_role[0].data.aws_iam_policy_document.vertice_core_access
@@ -90,3 +88,14 @@ moved {
   from = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_core_simulate_access
   to   = module.vertice_governance_role[0].aws_iam_role_policy_attachment.vertice_core_simulate_access[0]
 }
+
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+# Migrations to 3.0.0
+# Changing the structure - Refactored vertice_cur_bucket module to be able to create more than one bucket, changed name of the module and submodules
+# --------------------------------------------------------------------------------------------------------------------------------------------------
+
+moved {
+  from = module.vertice_cur_bucket
+  to   = module.vertice_report_buckets
+}
+
