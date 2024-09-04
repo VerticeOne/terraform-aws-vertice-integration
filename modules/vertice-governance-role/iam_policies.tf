@@ -10,7 +10,7 @@ locals {
 }
 
 ########
-## Managed policy for accessing the CUR bucket
+## Managed policy for accessing the CUR and COR buckets
 ########
 
 data "aws_iam_policy_document" "vertice_cur_bucket_access" {
