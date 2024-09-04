@@ -172,7 +172,7 @@ module "vertice_cur_report" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  depends_on = [module.vertice_report_buckets[0].module.vertice_report_buckets["cur"].aws_s3_bucket.this[0]]
+  depends_on = [module.vertice_report_buckets]
 }
 
 module "vertice_cor_report" {
@@ -191,5 +191,5 @@ module "vertice_cor_report" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  depends_on = [module.vertice_report_buckets[0].module.vertice_report_buckets["cor"].aws_s3_bucket_policy.this[0]]
+  depends_on = [module.vertice_report_buckets.aws_s3_bucket_policy]
 }
