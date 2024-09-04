@@ -32,8 +32,8 @@ data "aws_iam_policy_document" "vertice_cur_bucket_access" {
 
   lifecycle {
     precondition {
-      condition     = length(var.report_bucket_names) == 2
-      error_message = "The 'cur_bucket_name' and 'cor_bucket_name' must be defined for billing/combined account."
+      condition     = length(var.report_bucket_names) > 1
+      error_message = "At least 'cur_bucket_name' must be defined for billing/combined account."
     }
   }
 }
