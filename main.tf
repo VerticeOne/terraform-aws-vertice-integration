@@ -28,6 +28,8 @@ module "vertice_cur_report" {
   cur_report_bucket_name = var.cur_bucket_name
   cur_report_s3_prefix   = var.cur_report_s3_prefix
 
+  cur_report_split_cost_data = var.cur_report_split_cost_data
+
   ## CUR report is currently available only in the us-east-1 region
   providers = {
     aws           = aws

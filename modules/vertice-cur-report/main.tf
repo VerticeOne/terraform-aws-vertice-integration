@@ -9,9 +9,10 @@ resource "aws_cur_report_definition" "vertice_cur_report" {
   format      = "Parquet"
   compression = "Parquet"
 
-  additional_schema_elements = [
-    "RESOURCES",
-  ]
+  additional_schema_elements = concat(
+    ["RESOURCES"],
+    var.cur_report_split_cost_data ? ["SPLIT_COST_ALLOCATION_DATA"] : [],
+  )
 
   s3_bucket = data.aws_s3_bucket.vertice_cur_bucket.bucket
   s3_region = data.aws_s3_bucket.vertice_cur_bucket.region
