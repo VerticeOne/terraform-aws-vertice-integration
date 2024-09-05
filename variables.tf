@@ -62,7 +62,6 @@ variable "billing_policy_addons" {
 variable "cur_bucket_name" {
   type        = string
   description = "The name of the bucket which will be used to store the CUR data for Vertice."
-  nullable    = false
   default     = null
 }
 
@@ -174,7 +173,6 @@ variable "cor_table_configurations" {
 variable "cor_bucket_name" {
   type        = string
   description = "The name of the bucket which will be used to store the Cost Optimization Recommendations data for Vertice."
-  nullable    = false
   default     = null
 }
 
