@@ -91,39 +91,64 @@ locals {
       force_destroy_policy                  = var.cor_bucket_force_destroy
       bucket_versioning                     = var.cor_bucket_versioning
       bucket_lifecycle_rules                = var.cor_bucket_lifecycle_rules
-      attach_deny_insecure_transport_policy = false
+      attach_deny_insecure_transport_policy = true
       attach_policy                         = true
-      policy = [{
-        sid    = "EnableAWSDataExportsToWriteToS3AndCheckPolicy"
-        effect = "Allow"
-        action = [
-          "s3:PutObject",
-        "s3:GetBucketPolicy"]
-        resources = [
-          "arn:aws:s3:::${var.cor_bucket_name}/*",
-          "arn:aws:s3:::${var.cor_bucket_name}"
-        ]
-        principals = [
-          {
-            type        = "Service"
-            identifiers = ["bcm-data-exports.amazonaws.com", "billingreports.amazonaws.com"]
-          }
-        ]
-        condition = [
-          {
-            test     = "StringLike"
-            variable = "aws:SourceAccount"
-            values   = ["AWS_ACCOUNT_ID"]
-          },
-          {
-            test     = "StringLike"
-            variable = "aws:SourceArn"
-            values = [
-              "arn:aws:cur:us-east-1:AWS_ACCOUNT_ID:definition/*",
-              "arn:aws:bcm-data-exports:us-east-1:AWS_ACCOUNT_ID:export/*",
-            ]
-          }
-        ]
+      policy = [
+        {
+          sid    = "AllowSSLRequestsOnly"
+          effect = "Deny"
+          action = ["s3:*"]
+          resources = [
+            "arn:aws:s3:::${var.cor_bucket_name}",
+            "arn:aws:s3:::${var.cor_bucket_name}/*"
+          ]
+          principals = [
+            {
+              type        = "*"
+              identifiers = ["*"]
+            }
+          ]
+          condition = [
+            {
+              test     = "Bool"
+              variable = "aws:SecureTransport"
+              values = [
+                "false"
+              ]
+            }
+          ]
+        },
+        {
+          sid    = "EnableAWSDataExportsToWriteToS3AndCheckPolicy"
+          effect = "Allow"
+          action = [
+            "s3:PutObject",
+          "s3:GetBucketPolicy"]
+          resources = [
+            "arn:aws:s3:::${var.cor_bucket_name}/*",
+            "arn:aws:s3:::${var.cor_bucket_name}"
+          ]
+          principals = [
+            {
+              type        = "Service"
+              identifiers = ["bcm-data-exports.amazonaws.com", "billingreports.amazonaws.com"]
+            }
+          ]
+          condition = [
+            {
+              test     = "StringLike"
+              variable = "aws:SourceAccount"
+              values   = ["AWS_ACCOUNT_ID"]
+            },
+            {
+              test     = "StringLike"
+              variable = "aws:SourceArn"
+              values = [
+                "arn:aws:cur:us-east-1:AWS_ACCOUNT_ID:definition/*",
+                "arn:aws:bcm-data-exports:us-east-1:AWS_ACCOUNT_ID:export/*",
+              ]
+            }
+          ]
         }
       ]
       bucket_enabled = var.cor_bucket_enabled
