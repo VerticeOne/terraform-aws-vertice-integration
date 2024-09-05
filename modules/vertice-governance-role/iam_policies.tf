@@ -7,6 +7,26 @@ locals {
   governance_role_additional_policy_enabled = var.governance_role_additional_policy_json != null
 
   s3_resource_list = flatten([for bucket in [var.cur_bucket_name, var.cor_bucket_name] : ["arn:aws:s3:::${bucket}", "arn:aws:s3:::${bucket}/*"] if bucket != null && bucket != ""])
+
+  default_vertice_billing_access_action = [
+    "budgets:Describe*",
+    "budgets:View*",
+    "ce:Describe*",
+    "ce:Get*",
+    "ce:List*",
+    "cur:Describe*",
+    "organizations:Describe*",
+    "organizations:List*",
+    "savingsplans:Describe*",
+    "savingsplans:List*",
+  ]
+
+  vertice_billing_access_action = var.cor_bucket_name != null ? local.default_vertice_billing_access_action : concat(local.default_vertice_billing_access_action, [
+    "bcm-data-exports:GetExport",
+    "bcm-data-exports:GetExecution",
+    "bcm-data-exports:ListExports",
+    "bcm-data-exports:ListExecutions",
+  ])
 }
 
 ########
@@ -64,18 +84,7 @@ data "aws_iam_policy_document" "vertice_billing_access" {
 
     effect = "Allow"
 
-    actions = [
-      "budgets:Describe*",
-      "budgets:View*",
-      "ce:Describe*",
-      "ce:Get*",
-      "ce:List*",
-      "cur:Describe*",
-      "organizations:Describe*",
-      "organizations:List*",
-      "savingsplans:Describe*",
-      "savingsplans:List*",
-    ]
+    actions = local.vertice_billing_access_action
 
     resources = [
       "*"
