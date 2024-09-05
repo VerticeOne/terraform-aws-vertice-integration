@@ -6,7 +6,7 @@ This module handles creating a role to be used by Vertice Cloud Cost Optimizatio
 
 If the account is your AWS Management account you should configure a [Cost and Usage Reports (CUR)](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html) export, and then provide the `cur_bucket_name` variable to allow the role access to the CUR data within S3.
 
-You can now also configure a [Cost optimization recommendations report (COR)](https://docs.aws.amazon.com/cur/latest/userguide/dataexports-create-standard.html) export, and then provide the `cor_bucket_name` variable to allow the role access to COR data within S3.
+You can now configure a [Cost optimization recommendations report (COR)](https://docs.aws.amazon.com/cur/latest/userguide/dataexports-create-standard.html) export, and then provide the `cor_bucket_name` variable to allow the role access to COR data within S3.
 
 ## Configure access for your AWS Management Account with Cost and Usage Reports (CUR) export configured
 
