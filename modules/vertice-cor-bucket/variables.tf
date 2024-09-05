@@ -7,7 +7,7 @@ variable "cor_bucket_name" {
 variable "cor_bucket_force_destroy" {
   type        = string
   description = "The name of the bucket which will be used to store the COR data for Vertice."
-  default     = false
+  default     = true
 }
 
 variable "cor_bucket_versioning" {
