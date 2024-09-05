@@ -6,7 +6,7 @@ locals {
   simulate_access_enabled                   = true
   governance_role_additional_policy_enabled = var.governance_role_additional_policy_json != null
 
-  s3_resource_list = flatten([for bucket in [var.cur_bucket_name, var.cor_bucket_name] : ["arn:aws:s3:::${bucket}", "arn:aws:s3:::${bucket}/*"] if bucket != null || bucket != ""])
+  s3_resource_list = flatten([for bucket in [var.cur_bucket_name, var.cor_bucket_name] : ["arn:aws:s3:::${bucket}", "arn:aws:s3:::${bucket}/*"] if bucket != null])
 }
 
 ########
