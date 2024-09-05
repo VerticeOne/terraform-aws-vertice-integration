@@ -179,7 +179,7 @@ variable "cor_bucket_enabled" {
 variable "cor_bucket_force_destroy" {
   type        = bool
   description = "A boolean that indicates all objects should be deleted from the bucket so that the bucket can be destroyed without error. These objects are not recoverable."
-  default     = false
+  default     = true
 }
 
 variable "cor_bucket_versioning" {
