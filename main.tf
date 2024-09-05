@@ -134,7 +134,7 @@ locals {
     for bucket_key, bucket_conf in local.s3_buckets_configurations : bucket_key => bucket_conf
     if bucket_conf.bucket_enabled
   }
-  s3_buckets_governance = local.s3_buckets_enabled_configuration[*].bucket_name
+  s3_buckets_governance = [for bucket_conf in local.s3_buckets_enabled_configuration : bucket_conf.bucket_name]
 }
 
 module "vertice_governance_role" {
