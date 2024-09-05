@@ -7,7 +7,7 @@ module "vertice_cor_bucket" {
   bucket        = var.cor_bucket_name
   force_destroy = var.cor_bucket_force_destroy
 
-  attach_deny_insecure_transport_policy = false
+  attach_deny_insecure_transport_policy = true
   attach_policy                         = true
   policy                                = data.aws_iam_policy_document.vertice_cor_bucket_access.json
 

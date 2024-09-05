@@ -4,6 +4,33 @@
 
 data "aws_iam_policy_document" "vertice_cor_bucket_access" {
   statement {
+    sid    = "AllowSSLRequestsOnly"
+    effect = "Deny"
+
+    actions = [
+      "s3:*",
+    ]
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+
+    resources = [
+      "arn:aws:s3:::${var.cor_bucket_name}",
+      "arn:aws:s3:::${var.cor_bucket_name}/*"
+    ]
+
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values = [
+        "false"
+      ]
+    }
+  }
+
+  statement {
     sid = "EnableAWSDataExportsToWriteToS3AndCheckPolicy"
 
     effect = "Allow"
