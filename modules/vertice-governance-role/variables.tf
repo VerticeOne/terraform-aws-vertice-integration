@@ -10,6 +10,12 @@ variable "cur_bucket_name" {
   default     = null
 }
 
+variable "cor_report_enabled" {
+  description = "Enable policy which allow access to Billing and Cost Management data exports."
+  type        = bool
+  default     = false
+}
+
 variable "governance_role_external_id" {
   type        = string
   description = "STS external ID value to require for assuming the governance role. Required if the governance IAM role is to be created. You will receive this from Vertice."
