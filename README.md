@@ -41,7 +41,7 @@ module "vertice_cco_integration_role" {
   # If you want to enable Cost Optimization Recommendations report, you need to add lines below
   # COR section start  
   cor_report_enabled         = true
-  cur_report_name            = "vertice-cor-reports"
+  cor_report_name            = "vertice-cor-reports"
   # COR section end
   
   governance_role_external_id = "<provided ExternalId value>"
