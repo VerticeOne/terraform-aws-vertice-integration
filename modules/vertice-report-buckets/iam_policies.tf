@@ -1,5 +1,5 @@
 ########
-## Managed policy for the CUR bucket to grant R/W access to AWS billingreports
+## Managed policy for the CUR and COR bucket to grant R/W access to AWS billingreports and bcm-data-exports
 ########
 
 locals {
