@@ -98,7 +98,7 @@ variable "cur_bucket_lifecycle_rules" {
 
 variable "cur_report_enabled" {
   type        = bool
-  description = "Whether to enable the module that creates S3 buckets for Cost Usage Report data and Cost Optimization Recommendations data."
+  description = "Whether to enable the module that creates Cost Usage Report export."
   default     = false
 }
 
@@ -126,7 +126,7 @@ variable "cur_report_split_cost_data" {
 
 variable "cor_report_enabled" {
   default     = false
-  description = "Whether to enable the module that creates S3 bucket for Cost Usage Report data."
+  description = "Whether to enable the module that creates Cost Optimization Recommendations Report export."
   type        = bool
 }
 
