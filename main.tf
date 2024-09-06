@@ -57,5 +57,5 @@ module "vertice_cor_report" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  depends_on = [module.vertice_report_buckets]
+  depends_on = [module.vertice_cur_bucket]
 }
