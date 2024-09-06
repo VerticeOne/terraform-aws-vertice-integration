@@ -21,7 +21,7 @@ locals {
     "savingsplans:List*",
   ]
 
-  vertice_billing_access_action = var.cor_bucket_name == null ? local.default_vertice_billing_access_action : concat(local.default_vertice_billing_access_action, [
+  vertice_billing_access_action = var.cor_bucket_name == null || var.cor_bucket_name == "" ? local.default_vertice_billing_access_action : concat(local.default_vertice_billing_access_action, [
     "bcm-data-exports:GetExport",
     "bcm-data-exports:GetExecution",
     "bcm-data-exports:ListExports",
