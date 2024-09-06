@@ -18,12 +18,12 @@ locals {
     "savingsplans:Describe*",
     "savingsplans:List*",
   ]
-  vertice_billing_access_action = var.cor_report_enabled ? local.default_vertice_billing_access_action : concat(local.default_vertice_billing_access_action, [
+  vertice_billing_access_action = var.cor_report_enabled ? concat(local.default_vertice_billing_access_action, [
     "bcm-data-exports:GetExport",
     "bcm-data-exports:GetExecution",
     "bcm-data-exports:ListExports",
     "bcm-data-exports:ListExecutions",
-  ])
+  ]) : local.default_vertice_billing_access_action
 }
 
 ########
