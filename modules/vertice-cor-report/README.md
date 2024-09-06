@@ -23,15 +23,15 @@ No modules.
 
 ## Resources
 
-| Name                                                                                                                                              | Type |
-|---------------------------------------------------------------------------------------------------------------------------------------------------|------|
+| Name | Type |
+|------|------|
 | [aws_bcmdataexports_export.vertice_cor_report](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/bcmdataexports_export) | resource |
 | [aws_s3_bucket.vertice_cur_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/s3_bucket)                      | data source |
 
 ## Inputs
 
-| Name                                                                                                                | Description                                                                                                | Type                                                                                                                   | Default                                                                                                      | Required |
-|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|:--------:|
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
 | <a name="input_cor_report_bucket_name"></a> [cor\_report\_bucket\_name](#input\_cor\_report\_bucket\_name)          | The name of the bucket which will be used to store the Cost Optimization Recommendations data for Vertice. | `string`                                                                                                               | n/a                                                                                                          |   yes    |
 | <a name="input_cor_report_name"></a> [cor\_report\_name](#input\_cor\_report\_name)                                 | The name of the Cost Optimization Recommendations report for Vertice.                                      | `string`                                                                                                               | `"vertice-cor-report"`                                                                                       |    no    |
 | <a name="input_cor_report_s3_prefix"></a> [cor\_report\_s3\_prefix](#input\_cor\_report\_s3\_prefix)                | The prefix for the S3 bucket path to where the Cost Optimization Recommendations data will be saved.       | `string`                                                                                                               | n/a                                                                                                          |   yes    |
