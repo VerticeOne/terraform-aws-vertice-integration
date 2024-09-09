@@ -1,5 +1,5 @@
 locals {
-  defaults_columns_for_selection = ["account_id", "action_type", "currency_code", "current_resource_details", "current_resource_summary",
+  default_columns_for_selection = ["account_id", "action_type", "currency_code", "current_resource_details", "current_resource_summary",
     "current_resource_type", "estimated_monthly_cost_after_discount", "estimated_monthly_cost_before_discount",
     "estimated_monthly_savings_after_discount", "estimated_monthly_savings_before_discount",
     "estimated_savings_percentage_after_discount", "estimated_savings_percentage_before_discount",
@@ -15,8 +15,8 @@ data "aws_s3_bucket" "vertice_cor_bucket" {
 resource "aws_bcmdataexports_export" "vertice_cor_report" {
   lifecycle {
     precondition {
-      condition     = sort(setintersection(local.defaults_columns_for_selection, var.cor_columns_for_selection)) == sort(var.cor_columns_for_selection)
-      error_message = "All the columns selected for COR must come from ${local.defaults_columns_for_selection}."
+      condition     = sort(setintersection(local.default_columns_for_selection, var.cor_columns_for_selection)) == sort(var.cor_columns_for_selection)
+      error_message = "All the columns selected for COR must come from ${join(", ", local.default_columns_for_selection)}."
     }
   }
 
