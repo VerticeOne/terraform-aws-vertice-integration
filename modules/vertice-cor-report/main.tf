@@ -23,11 +23,12 @@ resource "aws_bcmdataexports_export" "vertice_cor_report" {
   export {
     name = var.cor_report_name
     data_query {
-      query_statement = "SELECT ${var.cor_columns_for_selection} FROM COST_OPTIMIZATION_RECOMMENDATIONS"
+      query_statement = "SELECT ${join(", ", var.cor_columns_for_selection)} FROM COST_OPTIMIZATION_RECOMMENDATIONS"
       table_configurations = {
         COST_OPTIMIZATION_RECOMMENDATIONS = var.cor_table_configurations
       }
     }
+
     destination_configurations {
       s3_destination {
         s3_bucket = data.aws_s3_bucket.vertice_cor_bucket.bucket
