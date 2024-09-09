@@ -16,7 +16,7 @@ data "aws_s3_bucket" "vertice_cor_bucket" {
 resource "aws_bcmdataexports_export" "vertice_cor_report" {
   lifecycle {
     precondition {
-      condition     = sort(setintersection(local.default_columns_for_selection, var.cor_columns_for_selection)) == local.sorted_cor_columns_for_selection_list
+      condition     = sort(setintersection(local.default_columns_for_selection, local.sorted_cor_columns_for_selection_list)) == local.sorted_cor_columns_for_selection_list
       error_message = "All the columns selected for COR must come from ${join(", ", local.default_columns_for_selection)}."
     }
   }
