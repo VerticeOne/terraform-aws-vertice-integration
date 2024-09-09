@@ -5,7 +5,7 @@ variable "cor_report_name" {
 }
 
 variable "cor_report_bucket_name" {
-  description = "The name of the bucket which will be used to store the Cost Optimization Recommendations data for Vertice"
+  description = "The name of the bucket which will be used to store the Cost Optimization Recommendations data for Vertice."
   nullable    = false
   type        = string
 }
@@ -17,12 +17,12 @@ variable "cor_report_s3_prefix" {
 
 variable "cor_columns_for_selection" {
   default     = []
-  description = "The list of names of columns that you want to select from COST_OPTIMIZATION_RECOMMENDATIONS table"
+  description = "List of column names to select from the COST_OPTIMIZATION_RECOMMENDATIONS table."
   type        = list(string)
 }
 
 variable "cor_table_configurations" {
-  description = "The configuration, that allows to change table parameters"
+  description = "COR table configurations; see https://docs.aws.amazon.com/cur/latest/userguide/table-dictionary-cor.html for details."
   default = {
     INCLUDE_ALL_RECOMMENDATIONS = "TRUE"
     FILTER                      = "{}"

@@ -6,7 +6,6 @@ locals {
     "implementation_effort", "last_refresh_timestamp", "recommendation_id", "recommendation_lookback_period_in_days",
     "recommendation_source", "recommended_resource_details", "recommended_resource_summary", "recommended_resource_type",
   "region", "resource_arn", "restart_needed", "rollback_possible", "tags"]
-  cor_columns_for_selection = length(var.cor_columns_for_selection) == 0 ? join(", ", local.defaults_columns_for_selection) : join(", ", setintersection(local.defaults_columns_for_selection, var.cor_columns_for_selection))
 }
 
 data "aws_s3_bucket" "vertice_cor_bucket" {
@@ -14,10 +13,17 @@ data "aws_s3_bucket" "vertice_cor_bucket" {
 }
 
 resource "aws_bcmdataexports_export" "vertice_cor_report" {
+  lifecycle {
+    precondition {
+      condition     = sort(setintersection(local.defaults_columns_for_selection, var.cor_columns_for_selection)) == sort(var.cor_columns_for_selection)
+      error_message = "All the columns selected for COR must come from ${local.defaults_columns_for_selection}."
+    }
+  }
+
   export {
     name = var.cor_report_name
     data_query {
-      query_statement = "SELECT ${local.cor_columns_for_selection} FROM COST_OPTIMIZATION_RECOMMENDATIONS"
+      query_statement = "SELECT ${var.cor_columns_for_selection} FROM COST_OPTIMIZATION_RECOMMENDATIONS"
       table_configurations = {
         COST_OPTIMIZATION_RECOMMENDATIONS = var.cor_table_configurations
       }

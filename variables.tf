@@ -144,12 +144,12 @@ variable "cor_report_s3_prefix" {
 
 variable "cor_columns_for_selection" {
   default     = []
-  description = "The list of names of columns that you want to select from COST_OPTIMIZATION_RECOMMENDATIONS table"
+  description = "List of column names to select from the COST_OPTIMIZATION_RECOMMENDATIONS table."
   type        = list(string)
 }
 
 variable "cor_table_configurations" {
-  description = "The configuration, that allows to change table parameters"
+  description = "COR table configurations; see https://docs.aws.amazon.com/cur/latest/userguide/table-dictionary-cor.html for details."
   default = {
     INCLUDE_ALL_RECOMMENDATIONS = "TRUE"
     FILTER                      = "{}"
@@ -159,4 +159,3 @@ variable "cor_table_configurations" {
     FILTER                      = string
   })
 }
-
