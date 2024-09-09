@@ -6,7 +6,7 @@ locals {
     "implementation_effort", "last_refresh_timestamp", "recommendation_id", "recommendation_lookback_period_in_days",
     "recommendation_source", "recommended_resource_details", "recommended_resource_summary", "recommended_resource_type",
   "region", "resource_arn", "restart_needed", "rollback_possible", "tags"]
-  sorted_cor_columns_for_selection_list = sort(var.cor_columns_for_selection)
+  sorted_cor_columns_for_selection_list = length(var.cor_columns_for_selection) == 0 ? local.default_columns_for_selection : sort(var.cor_columns_for_selection)
 }
 
 data "aws_s3_bucket" "vertice_cor_bucket" {
