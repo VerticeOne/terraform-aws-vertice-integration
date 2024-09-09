@@ -10,6 +10,12 @@ variable "cur_bucket_name" {
   default     = null
 }
 
+variable "data_export_enabled" {
+  description = "Include policy enabling access to AWS Data Exports."
+  type        = bool
+  default     = false
+}
+
 variable "governance_role_external_id" {
   type        = string
   description = "STS external ID value to require for assuming the governance role. Required if the governance IAM role is to be created. You will receive this from Vertice."

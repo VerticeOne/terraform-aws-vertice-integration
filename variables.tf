@@ -113,3 +113,43 @@ variable "cur_report_split_cost_data" {
   description = "Enable Split Cost Allocation Data inclusion in CUR. Note that manual opt-in is needed in AWS Console."
   default     = false
 }
+
+########
+## AWS Data Export module variables
+########
+
+variable "data_export_enabled" {
+  default     = false
+  description = "Enable AWS Data Export functionality."
+  type        = bool
+}
+
+variable "data_export_name" {
+  default     = "vertice-cor-report"
+  description = "The name of the AWS Data Export created for Vertice."
+  type        = string
+}
+
+variable "data_export_s3_prefix" {
+  description = "The prefix for the S3 bucket path where the AWS Data Export data will be saved."
+  default     = "cor"
+  type        = string
+}
+
+variable "data_export_columns" {
+  default     = []
+  description = "List of column names to select from the COST_OPTIMIZATION_RECOMMENDATIONS table."
+  type        = list(string)
+}
+
+variable "data_export_table_config" {
+  description = "COR table configurations; see https://docs.aws.amazon.com/cur/latest/userguide/table-dictionary-cor.html for details."
+  default = {
+    INCLUDE_ALL_RECOMMENDATIONS = "TRUE"
+    FILTER                      = "{}"
+  }
+  type = object({
+    INCLUDE_ALL_RECOMMENDATIONS = string
+    FILTER                      = string
+  })
+}
