@@ -56,7 +56,7 @@ provider "aws" {
 }
 
 terraform {
-  required_version = ">= 1.1.4"
+  required_version = ">= 1.3.0"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -86,7 +86,7 @@ To enable this feature:
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.4 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.64.0 |
 
 ## Providers
