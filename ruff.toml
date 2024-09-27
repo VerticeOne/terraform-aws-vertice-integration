@@ -75,8 +75,9 @@ ignore = [
     "D400", # End in period
     "COM812", # Incompatible with `ruff format`
     "FLY002", # Avoid f-strings joining
-    "PD901", # Avoid using the generic variable name `df` for DataFrames,
+    "PD901", # Avoid using the generic variable name `df` for DataFrames
     "RUF012", # Mutable class attributes should be annotated with
+    "PT001", # PyTest fixture
 ]
 unfixable = []
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
