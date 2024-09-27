@@ -22,6 +22,18 @@ variable "governance_role_external_id" {
   default     = ""
 }
 
+variable "governance_role_name_prefix" {
+  type        = string
+  description = "Prefix of the VerticeGovernance role name and names of its policies. For testing purposes. It is discouraged to set / change this."
+  default     = ""
+}
+
+variable "governance_role_assume_policy_json" {
+  type        = string
+  description = "Optional override for VerticeGovernanceRole assume policy. Default assume role policy is constructed if this is not provided."
+  default     = null
+}
+
 variable "governance_role_additional_policy_json" {
   type        = string
   description = "Custom additional policy in JSON format to attach to VerticeGovernance role. Default is `null` for no additional policy."
