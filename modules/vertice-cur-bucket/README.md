@@ -33,6 +33,7 @@ Sub-module responsible for the creation of an S3 bucket for collecting AWS cost 
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_cur_bucket_allow_data_export_access"></a> [cur\_bucket\_allow\_data\_export\_access](#input\_cur\_bucket\_allow\_data\_export\_access) | Add IAM policy for AWS Data Export access to the bucket. | `bool` | `false` | no |
 | <a name="input_cur_bucket_force_destroy"></a> [cur\_bucket\_force\_destroy](#input\_cur\_bucket\_force\_destroy) | The name of the bucket which will be used to store the CUR data for Vertice. | `string` | `false` | no |
 | <a name="input_cur_bucket_lifecycle_rules"></a> [cur\_bucket\_lifecycle\_rules](#input\_cur\_bucket\_lifecycle\_rules) | List of maps containing configuration of object lifecycle management on the S3 bucket holding CUR data. | `any` | `[]` | no |
 | <a name="input_cur_bucket_name"></a> [cur\_bucket\_name](#input\_cur\_bucket\_name) | The name of the bucket which will be used to store the CUR data for Vertice. | `string` | n/a | yes |

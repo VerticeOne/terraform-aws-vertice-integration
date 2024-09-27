@@ -5,6 +5,27 @@ locals {
 
   simulate_access_enabled                   = true
   governance_role_additional_policy_enabled = var.governance_role_additional_policy_json != null
+
+  default_vertice_billing_access_actions = [
+    "budgets:Describe*",
+    "budgets:View*",
+    "ce:Describe*",
+    "ce:Get*",
+    "ce:List*",
+    "cur:Describe*",
+    "organizations:Describe*",
+    "organizations:List*",
+    "savingsplans:Describe*",
+    "savingsplans:List*",
+  ]
+
+  vertice_billing_access_actions = concat(local.default_vertice_billing_access_actions, var.data_export_enabled ? [
+    "bcm-data-exports:GetExport",
+    "bcm-data-exports:GetExecution",
+    "bcm-data-exports:ListExports",
+    "bcm-data-exports:ListExecutions",
+    ] : [],
+  )
 }
 
 ########
@@ -65,18 +86,7 @@ data "aws_iam_policy_document" "vertice_billing_access" {
 
     effect = "Allow"
 
-    actions = [
-      "budgets:Describe*",
-      "budgets:View*",
-      "ce:Describe*",
-      "ce:Get*",
-      "ce:List*",
-      "cur:Describe*",
-      "organizations:Describe*",
-      "organizations:List*",
-      "savingsplans:Describe*",
-      "savingsplans:List*",
-    ]
+    actions = local.vertice_billing_access_actions
 
     resources = [
       "*"

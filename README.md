@@ -6,11 +6,13 @@ This module handles creating a role to be used by Vertice Cloud Cost Optimizatio
 
 If the account is your AWS Management account you should configure a [Cost and Usage Reports (CUR)](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html) export, and then provide the `cur_bucket_name` variable to allow the role access to the CUR data within S3.
 
-## Configure access for your AWS Management Account with Cost and Usage Reports (CUR) export configured
+You can now configure a [Cost Optimization Recommendations Report (COR)](https://docs.aws.amazon.com/cur/latest/userguide/dataexports-create-standard.html) export, use existing bucket for [Cost and Usage Reports (CUR)](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html) `cur_bucket_name` and provide `cor_report_s3_prefix` variable.
+
+## Configure access for your AWS Management Account with Cost and Usage Reports (CUR) and Cost Optimization Recommendations (COR) export configured
 
 This is an example of creating a role in your [AWS Organizations management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html) account (root/payer) where you host your CUR reports in a S3 bucket which will be accessed by the Vertice cross-account IAM role.
 
-Configuring this module to create CUR S3 bucket and CUR report in your AWS Organizations management (root/payer) account is highly recommended.
+Configuring this module to create CUR S3 bucket and CUR report in your AWS Organizations management (root/payer) account is highly recommended. If you want to use the Cost Optimization Recommendations (AWS Data Exports) report, please configure this module to create the export in your AWS Organizations management (root/payer) account using the `data_export_enabled` variable.
 
 For the governance IAM role to be created in your account, an ExternalId needs to be set in the `governance_role_external_id` parameter. You will receive this value from Vertice.
 
@@ -35,7 +37,11 @@ module "vertice_cco_integration_role" {
 
   cur_report_name      = "athena"
   cur_report_s3_prefix = "cur"
-
+  # If you want to enable Cost Optimization Recommendations report, you need to add lines below
+  # COR section start
+  cor_report_enabled         = true
+  cor_report_name            = "vertice-cor-reports"
+  # COR section end
   governance_role_external_id = "<provided ExternalId value>"
 
   providers = {
@@ -108,6 +114,11 @@ No providers.
 | <a name="input_cur_report_name"></a> [cur\_report\_name](#input\_cur\_report\_name) | The name of the CUR report for Vertice. | `string` | no |
 | <a name="input_cur_report_s3_prefix"></a> [cur\_report\_s3\_prefix](#input\_cur\_report\_s3\_prefix) | The prefix for the S3 bucket path to where the CUR data will be saved. | `string` | no |
 | <a name="input_cur_report_split_cost_data"></a> [cur\_report\_split\_cost\_data](#input\_cur\_report\_split\_cost\_data) | Enable Split Cost Allocation Data inclusion in CUR. Note that manual opt-in is needed in AWS Console. | `bool` | no |
+| <a name="input_data_export_columns"></a> [data\_export\_columns](#input\_data\_export\_columns) | List of column names to select from the COST\_OPTIMIZATION\_RECOMMENDATIONS table. | `list(string)` | no |
+| <a name="input_data_export_enabled"></a> [data\_export\_enabled](#input\_data\_export\_enabled) | Enable AWS Data Export functionality. | `bool` | no |
+| <a name="input_data_export_name"></a> [data\_export\_name](#input\_data\_export\_name) | The name of the AWS Data Export created for Vertice. | `string` | no |
+| <a name="input_data_export_s3_prefix"></a> [data\_export\_s3\_prefix](#input\_data\_export\_s3\_prefix) | The prefix for the S3 bucket path where the AWS Data Export data will be saved. | `string` | no |
+| <a name="input_data_export_table_config"></a> [data\_export\_table\_config](#input\_data\_export\_table\_config) | COR table configurations; see https://docs.aws.amazon.com/cur/latest/userguide/table-dictionary-cor.html for details. | <pre>object({<br>    INCLUDE_ALL_RECOMMENDATIONS = string<br>    FILTER                      = string<br>  })</pre> | no |
 | <a name="input_governance_role_additional_policy_json"></a> [governance\_role\_additional\_policy\_json](#input\_governance\_role\_additional\_policy\_json) | Custom additional policy in JSON format to attach to VerticeGovernance role. Default is null for no additional policy. | `string` | no |
 | <a name="input_governance_role_enabled"></a> [governance\_role\_enabled](#input\_governance\_role\_enabled) | Whether to enable the module that creates VerticeGovernance role for the Cloud Cost Optimization. | `bool` | no |
 | <a name="input_governance_role_external_id"></a> [governance\_role\_external\_id](#input\_governance\_role\_external\_id) | STS external ID value to require for assuming the governance role. Required if the governance IAM role is to be created. You will receive this from Vertice. | `string` | no |
@@ -119,6 +130,8 @@ No providers.
 |------|-------------|
 | <a name="output_cur_report_name"></a> [cur\_report\_name](#output\_cur\_report\_name) | Name of the CUR report created. |
 | <a name="output_cur_report_s3_prefix"></a> [cur\_report\_s3\_prefix](#output\_cur\_report\_s3\_prefix) | Name of the S3 prefix used by the CUR report. |
+| <a name="output_data_export_name"></a> [data\_export\_name](#output\_data\_export\_name) | Name of the COR report created. |
+| <a name="output_data_export_s3_prefix"></a> [data\_export\_s3\_prefix](#output\_data\_export\_s3\_prefix) | Name of the S3 prefix used by the COR report. |
 | <a name="output_vertice_account_ids"></a> [vertice\_account\_ids](#output\_vertice\_account\_ids) | Account IDs of Vertice allowed to access your AWS resources. |
 | <a name="output_vertice_governance_role_arn"></a> [vertice\_governance\_role\_arn](#output\_vertice\_governance\_role\_arn) | The ARN of VerticeGovernance role created. |
 | <a name="output_vertice_governance_role_name"></a> [vertice\_governance\_role\_name](#output\_vertice\_governance\_role\_name) | The name of VerticeGovernance role created. |

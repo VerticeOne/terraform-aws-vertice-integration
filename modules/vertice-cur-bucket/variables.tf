@@ -24,3 +24,9 @@ variable "cur_bucket_lifecycle_rules" {
   description = "List of maps containing configuration of object lifecycle management on the S3 bucket holding CUR data."
   default     = []
 }
+
+variable "cur_bucket_allow_data_export_access" {
+  type        = bool
+  description = "Add IAM policy for AWS Data Export access to the bucket."
+  default     = false
+}
