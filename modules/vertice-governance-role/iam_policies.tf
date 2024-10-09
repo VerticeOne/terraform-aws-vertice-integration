@@ -94,6 +94,20 @@ data "aws_iam_policy_document" "vertice_billing_access" {
   }
 
   dynamic "statement" {
+    for_each = var.billing_policy_addons.elasticache_ri ? [1] : []
+    content {
+      sid    = "VerticeElastiCacheReservedInstancesAccess"
+      effect = "Allow"
+      actions = [
+        "elasticache:DescribeReservedCacheNodes",
+        "elasticache:DescribeReservedCacheNodesOfferings",
+        "elasticache:PurchaseReservedCacheNodesOffering",
+      ]
+      resources = ["*"]
+    }
+  }
+
+  dynamic "statement" {
     for_each = var.billing_policy_addons.ec2_ri ? [1] : []
     content {
       sid    = "VerticeEc2ReservedInstancesAccess"
@@ -116,6 +130,20 @@ data "aws_iam_policy_document" "vertice_billing_access" {
   }
 
   dynamic "statement" {
+    for_each = var.billing_policy_addons.es_ri ? [1] : []
+    content {
+      sid    = "VerticeOpenSearchReservedInstancesAccess"
+      effect = "Allow"
+      actions = [
+        "es:DescribeReservedInstanceOfferings",
+        "es:DescribeReservedInstances",
+        "es:PurchaseReservedInstanceOffering",
+      ]
+      resources = ["*"]
+    }
+  }
+
+  dynamic "statement" {
     for_each = var.billing_policy_addons.rds_ri ? [1] : []
     content {
       sid    = "VerticeRdsReservedInstancesAccess"
@@ -125,6 +153,20 @@ data "aws_iam_policy_document" "vertice_billing_access" {
         "rds:DescribeReservedDBInstances",
         "rds:DescribeReservedDBInstancesOfferings",
         "rds:PurchaseReservedDBInstancesOffering",
+      ]
+      resources = ["*"]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.billing_policy_addons.redshift_ri ? [1] : []
+    content {
+      sid    = "VerticeRedshiftReservedInstancesAccess"
+      effect = "Allow"
+      actions = [
+        "redshift:DescribeReservedNodeOfferings",
+        "redshift:DescribeReservedNodes",
+        "redshift:PurchaseReservedNodeOffering",
       ]
       resources = ["*"]
     }
