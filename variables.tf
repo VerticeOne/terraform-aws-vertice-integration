@@ -55,8 +55,11 @@ variable "governance_role_additional_policy_json" {
 variable "billing_policy_addons" {
   description = "Enable optional add-ons for the `billing`/`combined` account IAM policy."
   type = object({
-    ec2_ri = optional(bool, true),
-    rds_ri = optional(bool, true),
+    elasticache_ri = optional(bool, true),
+    ec2_ri         = optional(bool, true),
+    es_ri          = optional(bool, true),
+    rds_ri         = optional(bool, true),
+    redshift_ri    = optional(bool, true),
   })
   default = {}
 }
