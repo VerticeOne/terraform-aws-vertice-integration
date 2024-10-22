@@ -8,6 +8,19 @@ If the account is your AWS Management account you should configure a [Cost and U
 
 You can now configure a [Cost Optimization Recommendations Report (COR)](https://docs.aws.amazon.com/cur/latest/userguide/dataexports-create-standard.html) export, use existing bucket for [Cost and Usage Reports (CUR)](https://docs.aws.amazon.com/cur/latest/userguide/what-is-cur.html) `cur_bucket_name` and provide `cor_report_s3_prefix` variable.
 
+> [!IMPORTANT]
+> Before enabling an AWS Data Export report (COR format) through this template:</br>
+>* Create **AWSServiceRoleForBCMDataExports** service-linked role
+>>  * In the AWS Console, go to the **Billing and Cost Management** page
+>>  * On this page navigate to **Data Exports** -> Click to **Create** -> Select **Standard data export** and **Cost optimization recommendations**
+>>  * Now you should see a warning table with the following title **Exports of Cost Optimization Recommendations requires a Service Linked Role (SLR)**
+>>>    * If you don't see that warning, you have already created **AWSServiceRoleForBCMDataExports** service-linked role
+>>  * In this warning table, click to **Create service-linked role** button, and it will create the necessary service for you
+>>  * You can leave the page now, without finishing the creation of the Data export, or you can continue with the settings below
+>>![cor_service_linked_role_creation.png](readme_resources/cor_service_linked_role_creation.png)</br>
+>* Enable **Cost Optimization Hub** in **Billing and Cost Management** in your **Billing AWS Account**
+>>![cost_optimization_hub.png](readme_resources/cost_optimization_hub.png)
+
 ## Configure access for your AWS Management Account with Cost and Usage Reports (CUR) and Cost Optimization Recommendations (COR) export configured
 
 This is an example of creating a role in your [AWS Organizations management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html) account (root/payer) where you host your CUR reports in a S3 bucket which will be accessed by the Vertice cross-account IAM role.
