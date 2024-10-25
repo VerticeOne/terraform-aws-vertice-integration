@@ -3,7 +3,7 @@
 
 provider "registry.terraform.io/hashicorp/aws" {
   version     = "5.73.0"
-  constraints = ">= 4.9.0, >= 4.64.0, >= 5.64.0, < 6.0.0"
+  constraints = ">= 5.64.0, < 6.0.0"
   hashes = [
     "h1:hyOg38/ifG8Jf/b4GC6ydR8ClyRRdsAF3SmMHL6qbes=",
     "zh:0d24edc51ab6600f56d759831658a9d7a8f69b53900546b75038fc8e3f312406",

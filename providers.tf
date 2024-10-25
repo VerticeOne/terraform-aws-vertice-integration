@@ -3,7 +3,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.64.0"
+      version = ">= 4.64.0, < 6.0.0"
 
       # A provider alias for us-east-1 region is needed because CUR is available only there.
       configuration_aliases = [
