@@ -14,7 +14,7 @@ Sub-module responsible for the creation of an S3 bucket for collecting AWS cost 
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.73.0  |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.73.0 |
 
 ## Modules
 
