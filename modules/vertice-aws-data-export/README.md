@@ -5,10 +5,10 @@ Sub-module responsible for the creation of an [AWS Data Export](https://docs.aws
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
-| Name | Version             |
-|------|---------------------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.4            |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0   |
 
 ## Providers
 
