@@ -10,16 +10,16 @@ You can now configure a [Cost Optimization Recommendations Report (COR)](https:/
 
 > [!IMPORTANT]
 > Before enabling an AWS Data Export report (COR format) through this template:
->* Create the **AWSServiceRoleForBCMDataExports** service-linked role
->>  * In the AWS Console, go to the **Billing and Cost Management** page
->>  * On this page navigate to **Data Exports** -> Click **Create** -> Select **Standard data export** and **Cost optimization recommendations**
->>  * Now you should see a warning table with the following title: **Exports of Cost Optimization Recommendations requires a Service Linked Role (SLR)**
->>>    * If you don't see the warning, you have already created the **AWSServiceRoleForBCMDataExports** service-linked role.
->>  * In this warning table, click the **Create service-linked role** button, and it will create the necessary role for you.
->>  * You can leave the page now, without finishing the creation of the Data export, or you can continue with the settings below
->![cor_service_linked_role_creation.png](readme_resources/cor_service_linked_role_creation.png)
->* Enable **Cost Optimization Hub** in **Billing and Cost Management** in your **Billing AWS Account**:
->>![cost_optimization_hub.png](readme_resources/cost_optimization_hub.png)
+> * Enable **Cost Optimization Hub** in **Billing and Cost Management** in your **Billing AWS Account**:
+> ![cost_optimization_hub.png](readme_resources/cost_optimization_hub.png)
+> * Create the **AWSServiceRoleForBCMDataExports** service-linked role
+>   * In the AWS Console, go to the **Billing and Cost Management** page
+>   * On this page navigate to **Data Exports** -> Click **Create** -> Select **Standard data export** and **Cost optimization recommendations**
+>   * Now you should see a warning table with the following title: **Exports of Cost Optimization Recommendations requires a Service Linked Role (SLR)**
+>      * If you don't see the warning, you have already created the **AWSServiceRoleForBCMDataExports** service-linked role.
+>   * In this warning table, click the **Create service-linked role** button, and it will create the necessary role for you.
+>   * You can leave the page now, without finishing the creation of the Data export, or you can continue with the settings below
+> ![cor_service_linked_role_creation.png](readme_resources/cor_service_linked_role_creation.png)
 
 ## Configure access for your AWS Management Account with Cost and Usage Reports (CUR) and Cost Optimization Recommendations (COR) export configured
 
