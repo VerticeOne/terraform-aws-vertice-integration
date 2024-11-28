@@ -37,7 +37,7 @@ data "aws_caller_identity" "current" {}
 module "vertice_cco_integration_role" {
   source        = "git::https://github.com/VerticeOne/terraform-aws-vertice-integration.git?ref=<release-version>"
 
-  account_type = "billing"
+  account_type = "combined"
   cur_bucket_enabled = true
   cur_report_enabled = true
 
