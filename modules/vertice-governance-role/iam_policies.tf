@@ -15,6 +15,7 @@ locals {
     "cur:Describe*",
     "organizations:Describe*",
     "organizations:List*",
+    # should those two be here?
     "savingsplans:Describe*",
     "savingsplans:List*",
   ]
@@ -122,6 +123,19 @@ data "aws_iam_policy_document" "vertice_billing_access" {
         "ec2:DescribeReservedInstancesOfferings",
         "ec2:ModifyReservedInstances",
         "ec2:PurchaseReservedInstancesOffering",
+      ]
+      resources = ["*"]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.billing_policy_addons.savingplans ? [1] : []
+    content {
+      sid    = "VerticeSavingPlansAccess"
+      effect = "Allow"
+      actions = [
+        "savingsplans:Describe*",
+        "savingsplans:List*",
         "savingsplans:CreateSavingsPlan",
         "savingsplans:DeleteQueuedSavingsPlan",
       ]
