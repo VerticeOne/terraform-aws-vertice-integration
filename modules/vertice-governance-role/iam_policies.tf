@@ -15,7 +15,6 @@ locals {
     "cur:Describe*",
     "organizations:Describe*",
     "organizations:List*",
-    # should those two be here?
     "savingsplans:Describe*",
     "savingsplans:List*",
   ]
@@ -129,7 +128,7 @@ data "aws_iam_policy_document" "vertice_billing_access" {
   }
 
   dynamic "statement" {
-    for_each = var.billing_policy_addons.savingplans ? [1] : []
+    for_each = var.billing_policy_addons.saving_plans ? [1] : []
     content {
       sid    = "VerticeSavingPlansAccess"
       effect = "Allow"
