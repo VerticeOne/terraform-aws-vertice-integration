@@ -60,6 +60,7 @@ variable "billing_policy_addons" {
     es_ri          = optional(bool, true),
     rds_ri         = optional(bool, true),
     redshift_ri    = optional(bool, true),
+    saving_plans   = optional(bool, true),
   })
   default = {}
 }
