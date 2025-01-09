@@ -218,6 +218,7 @@ data "aws_iam_policy_document" "vertice_core_access" {
       "backup:Get*",
       "cloudwatch:Describe*",
       "cloudwatch:GetMetricStatistics",
+      "cloudwatch:GetMetricData",
       "cloudwatch:List*",
       "ec2:Describe*",
       "ec2:GetCapacityReservationUsage",
