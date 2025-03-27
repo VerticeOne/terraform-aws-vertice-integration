@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run self-hosted Renovate bot
-        uses: renovatebot/github-action@v41.0.14
+        uses: renovatebot/github-action@v41.0.17
         with:
           configurationFile: .github/renovate.json
           token: ${{ secrets.VERTICE_PAT }}
