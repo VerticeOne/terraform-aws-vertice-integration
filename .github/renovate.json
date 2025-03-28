@@ -2,10 +2,12 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended",
-        "group:all",
         ":disableDependencyDashboard",
         ":semanticCommits"
     ],
+    "prHourlyLimit": 0,
+    "prConcurrentLimit": 0,
+    "configMigration": true,
     "customManagers": [
         {
             "customType": "regex",
@@ -28,36 +30,30 @@
         },
         {
             "matchManagers": ["terraform"],
-            "groupName": "Terraform providers",
+            "groupName": "Terraform",
             "matchDepTypes": ["required_provider","provider"],
             "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
             "addLabels": ["terraform"],
-            "groupSlug": "terraform-providers"
+            "groupSlug": "terraform"
         },
         {
             "description": "Group custom regex required_provider with other providers",
             "matchManagers": ["custom.regex"],
             "matchDepTypes": ["required_provider"],
-            "groupName": "Terraform providers",
+            "groupName": "Terraform",
             "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
             "addLabels": ["terraform"],
-            "groupSlug": "terraform-providers"
+            "groupSlug": "terraform"
         },
         {
             "description": "Group all modules from the same source",
             "matchManagers": ["terraform", "custom.regex"],
             "matchDepTypes": ["module"],
-            "groupName": "Terraform modules",
+            "groupName": "Terraform",
             "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
             "addLabels": ["terraform"],
-            "groupSlug": "terraform-modules",
+            "groupSlug": "terraform",
             "pinDigests": true
-        },
-        {
-            "matchManagers": ["terraform", "custom.regex"],
-            "matchDepTypes": ["module"],
-            "matchUpdateTypes": ["major"],
-            "enabled": false
         },
         {
             "matchManagers": ["terraform", "custom.regex"],
