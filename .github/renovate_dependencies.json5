@@ -4,8 +4,9 @@
   extends: [
     'config:recommended',
     ':disableDependencyDashboard',
-    ':semanticCommits',
+    ':semanticCommits'
   ],
+  ignorePresets: ['group:terraformMonorepo','monorepo:terraform'],
   prHourlyLimit: 0,
   prConcurrentLimit: 0,
   customManagers: [
@@ -22,17 +23,48 @@
       datasourceTemplate: 'github-tags',
     },
     {
-      "customType": "regex",
-      "fileMatch": ["(^|/)\\.tool-versions$"],
-      "matchStrings": [
-        "^(?<depName>[a-zA-Z0-9_-]+)\\s+(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)$"
+      'customType': 'regex',
+      'fileMatch': ['(^|/)\\.tool-versions$'],
+      'matchStrings': [
+        '^(?<depName>[a-zA-Z0-9_-]+)\\s+(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)$'
       ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "{{#if lookupName}}{{{lookupName}}}{{else}}{{#if depName}}{{depName}}/{{depName}}{{/if}}{{/if}}",
-      "extractVersionTemplate": "^v?(?<version>.*)$"
+      'datasourceTemplate': 'github-releases',
+      'depNameTemplate': '{{#if lookupName}}{{{lookupName}}}{{else}}{{#if depName}}{{depName}}/{{depName}}{{/if}}{{/if}}',
+      'extractVersionTemplate': '^v?(?<version>.*)$'
     },
+    {
+      'customType': 'regex',
+      'managerFilePatterns': [
+        '/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/',
+        '/(^|/)action\\.ya?ml$/'
+      ],
+      'matchStrings': [
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9-._]+?) depName=(?<depName>[^\\s]+?)(?: (?:lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?(?: extractVersion=(?<extractVersion>[^\\s]+?))?\\s+[A-Za-z0-9_]+?_VERSION\\s*:\\s*[\"']?(?<currentValue>.+?)[\"']?\\s"
+      ]
+    }
   ],
   packageRules: [
+    // ===== TOOLS CONFIGURATION =====
+    {
+      description: 'Group any terraform/terragrunt updates from any manager (catch-all)',
+      groupName: 'tools',
+      addLabels: [
+        'tool-versions',
+      ],
+      matchFileNames: [
+        '**/.tool-versions',
+        '/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/',
+        '/(^|/)action\\.ya?ml$/'
+      ],
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      groupSlug: 'tools',
+      commitMessagePrefix: '⬆️ ',
+      commitMessageAction: 'Update',
+      commitMessageTopic: '{{groupName}}',
+    },
     // ===== TERRAFORM CONFIGURATION =====
     {
       // Disables Renovate's built-in Terraform module manager to use custom regex instead
@@ -151,21 +183,6 @@
       allowedVersions: '3.11.x',
     },
     {
-      // Groups patch updates for tools in .tool-versions files
-      // Handles: terraform 1.5.1 → 1.5.2, kubectl 1.27.1 → 1.27.2
-      description: 'Group tool version patch updates (.tool-versions)',
-      matchFileNames: [
-        '**/.tool-versions',
-      ],
-      matchUpdateTypes: [
-        'patch',
-      ],
-      groupName: 'Tool versions',
-      addLabels: [
-        'tool-versions',
-      ],
-    },
-    {
       // Groups Python package patch updates from requirements.txt files
       // Handles: requests 2.28.1 → 2.28.2, boto3 1.26.1 → 1.26.2
       description: 'Group Python package patch updates (requirements.txt)',
@@ -237,25 +254,6 @@
         'npm-deps',
       ],
     },
-
-    // ===== GITHUB ACTIONS CONFIGURATION =====
-    {
-      // Groups GitHub Actions minor and patch updates
-      // Handles: actions/checkout@v3.1.0 → v3.1.1, actions/setup-node@v3.5.0 → v3.5.1
-      description: 'Group GitHub Actions updates (minor/patch)',
-      matchManagers: [
-        'github-actions',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      groupName: 'GitHub Actions',
-      addLabels: [
-        'github-actions',
-      ],
-    },
-
     // ===== DOCKER CONFIGURATION =====
     {
       // Groups Docker base image patch updates from Dockerfiles
