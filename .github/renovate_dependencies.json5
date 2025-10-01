@@ -1,171 +1,118 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  branchPrefix: 'dependencies/',
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  branchPrefix: "dependencies/",
   extends: [
-    'config:recommended',
-    ':disableDependencyDashboard',
-    ':semanticCommits'
+    "config:recommended",
+    ":disableDependencyDashboard",
+    ":semanticCommits",
   ],
-  ignorePresets: ['group:terraformMonorepo','monorepo:terraform'],
+  ignorePresets: ["group:terraformMonorepo", "monorepo:terraform"],
   prHourlyLimit: 0,
   prConcurrentLimit: 0,
   customManagers: [
     {
-      customType: 'regex',
-      managerFilePatterns: [
-        '/.*\\.tf/',
-      ],
+      customType: "regex",
+      managerFilePatterns: ["/.*\\.tf/"],
       matchStrings: [
         'source\\s+=\\s+"git::https://github\\.com/(?<depName>[^/]+/[^\\./]+)(\\.git)?(//.+)?\\?ref=(?<currentDigest>[^"]+)"\\s+#\\s+(?<currentValue>.+)',
       ],
-      versioningTemplate: 'semver',
-      depTypeTemplate: 'module',
-      datasourceTemplate: 'github-tags',
+      versioningTemplate: "semver",
+      depTypeTemplate: "module",
+      datasourceTemplate: "github-tags",
     },
     {
-      'customType': 'regex',
-      'fileMatch': ['(^|/)\\.tool-versions$'],
-      'matchStrings': [
-        '^(?<depName>[a-zA-Z0-9_-]+)\\s+(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)$'
+      customType: "regex",
+      fileMatch: ["(^|/)\\.tool-versions$"],
+      matchStrings: [
+        "^(?<depName>[a-zA-Z0-9_-]+)\\s+(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)$",
       ],
-      'datasourceTemplate': 'github-releases',
-      'depNameTemplate': '{{#if lookupName}}{{{lookupName}}}{{else}}{{#if depName}}{{depName}}/{{depName}}{{/if}}{{/if}}',
-      'extractVersionTemplate': '^v?(?<version>.*)$'
+      datasourceTemplate: "github-releases",
+      depNameTemplate: "{{#if lookupName}}{{{lookupName}}}{{else}}{{#if depName}}{{depName}}/{{depName}}{{/if}}{{/if}}",
+      extractVersionTemplate: "^v?(?<version>.*)$",
     },
     {
-      'customType': 'regex',
-      'managerFilePatterns': [
-        '/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/',
-        '/(^|/)action\\.ya?ml$/'
+      customType: "regex",
+      managerFilePatterns: [
+        "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
+        "/(^|/)action\\.ya?ml$/",
       ],
-      'matchStrings': [
-        "# renovate: datasource=(?<datasource>[a-zA-Z0-9-._]+?) depName=(?<depName>[^\\s]+?)(?: (?:lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?(?: extractVersion=(?<extractVersion>[^\\s]+?))?\\s+[A-Za-z0-9_]+?_VERSION\\s*:\\s*[\"']?(?<currentValue>.+?)[\"']?\\s"
-      ]
-    }
+      matchStrings: [
+        "# renovate: datasource=(?<datasource>[a-zA-Z0-9-._]+?) depName=(?<depName>[^\\s]+?)(?: (?:lookupName|packageName)=(?<packageName>[^\\s]+?))?(?: versioning=(?<versioning>[^\\s]+?))?(?: extractVersion=(?<extractVersion>[^\\s]+?))?\\s+[A-Za-z0-9_]+?_VERSION\\s*:\\s*[\"']?(?<currentValue>.+?)[\"']?\\s",
+      ],
+    },
   ],
   packageRules: [
     // ===== TOOLS CONFIGURATION =====
     {
-      description: 'Group any terraform/terragrunt updates from any manager (catch-all)',
-      groupName: 'tools',
-      addLabels: [
-        'tool-versions',
-      ],
+      description: "Group any terraform/terragrunt updates from any manager (catch-all)",
+      groupName: "tools",
+      addLabels: ["tool-versions"],
       matchFileNames: [
-        '**/.tool-versions',
-        '/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/',
-        '/(^|/)action\\.ya?ml$/'
+        "**/.tool-versions",
+        "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
+        "/(^|/)action\\.ya?ml$/",
       ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      groupSlug: 'tools',
-      commitMessagePrefix: '⬆️ ',
-      commitMessageAction: 'Update',
-      commitMessageTopic: '{{groupName}}',
+      matchUpdateTypes: ["minor", "patch"],
+      groupSlug: "tools",
+      commitMessagePrefix: "⬆️ ",
+      commitMessageAction: "Update",
+      commitMessageTopic: "{{groupName}}",
     },
     // ===== TERRAFORM CONFIGURATION =====
     {
       // Disables Renovate's built-in Terraform module manager to use custom regex instead
-      description: 'Disable built-in Terraform manager for modules',
-      matchManagers: [
-        'terraform',
-      ],
-      matchDepTypes: [
-        'module',
-      ],
+      description: "Disable built-in Terraform manager for modules",
+      matchManagers: ["terraform"],
+      matchDepTypes: ["module"],
       enabled: false,
     },
     {
       // Groups Terraform provider updates (minor/patch/pin/digest) into single PR
       // Handles: AWS provider 4.1.0 → 4.1.1, HashiCorp provider updates, etc.
-      description: 'Group Terraform provider updates (minor/patch/pin/digest)',
-      matchManagers: [
-        'terraform',
-      ],
-      groupName: 'Terraform',
-      matchDepTypes: [
-        'required_provider',
-        'provider',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-        'pin',
-        'digest',
-      ],
-      addLabels: [
-        'terraform',
-      ],
-      groupSlug: 'terraform',
+      description: "Group Terraform provider updates (minor/patch/pin/digest)",
+      matchManagers: ["terraform"],
+      groupName: "Terraform",
+      matchDepTypes: ["required_provider", "provider"],
+      matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+      addLabels: ["terraform"],
+      groupSlug: "terraform",
     },
     {
       // Groups custom regex-detected provider updates with standard provider updates
       // Handles: Custom provider detection via regex patterns
-      description: 'Group custom regex required_provider with other providers',
-      matchManagers: [
-        'custom.regex',
-      ],
-      matchDepTypes: [
-        'required_provider',
-      ],
-      groupName: 'Terraform',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-        'pin',
-        'digest',
-      ],
-      addLabels: [
-        'terraform',
-      ],
-      groupSlug: 'terraform',
+      description: "Group custom regex required_provider with other providers",
+      matchManagers: ["custom.regex"],
+      matchDepTypes: ["required_provider"],
+      groupName: "Terraform",
+      matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+      addLabels: ["terraform"],
+      groupSlug: "terraform",
     },
     {
       // Groups Terraform module updates from Git sources (minor/patch/pin/digest)
       // Handles: terraform-aws-modules updates, internal module updates, etc.
-      description: 'Group Terraform module updates (minor/patch/pin/digest)',
-      matchManagers: [
-        'terraform',
-        'custom.regex',
-      ],
-      matchDepTypes: [
-        'module',
-      ],
-      groupName: 'Terraform',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-        'pin',
-        'digest',
-      ],
-      addLabels: [
-        'terraform',
-      ],
-      groupSlug: 'terraform',
+      description: "Group Terraform module updates (minor/patch/pin/digest)",
+      matchManagers: ["terraform", "custom.regex"],
+      matchDepTypes: ["module"],
+      groupName: "Terraform",
+      matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+      addLabels: ["terraform"],
+      groupSlug: "terraform",
       pinDigests: true,
     },
     {
       // Blocks all major version updates for Terraform providers and modules
       // Prevents: AWS provider 4.x → 5.x, breaking changes in modules
-      description: 'Block major version updates for Terraform (breaking changes)',
-      matchManagers: [
-        'terraform',
-        'custom.regex',
-      ],
-      matchUpdateTypes: [
-        'major',
-      ],
+      description: "Block major version updates for Terraform (breaking changes)",
+      matchManagers: ["terraform", "custom.regex"],
+      matchUpdateTypes: ["major"],
       enabled: false,
     },
     {
       // Global rule to block all major version updates across all package managers
       // Prevents: Node 16 → 18, Python 3.10 → 3.11, major library updates
-      description: 'Block all major version updates (breaking changes)',
-      matchUpdateTypes: [
-        'major',
-      ],
+      description: "Block all major version updates (breaking changes)",
+      matchUpdateTypes: ["major"],
       enabled: false,
     },
 
@@ -173,170 +120,126 @@
     {
       // Pins Python version to 3.11.x in .tool-versions files
       // Prevents: Python 3.11.5 → 3.12.0, maintains compatibility
-      description: 'Pin Python version to 3.11.x (compatibility)',
-      matchFileNames: [
-        '**/.tool-versions',
-      ],
-      matchDepNames: [
-        'python',
-      ],
-      allowedVersions: '3.11.x',
+      description: "Pin Python version to 3.11.x (compatibility)",
+      matchFileNames: ["**/.tool-versions"],
+      matchDepNames: ["python"],
+      allowedVersions: "3.11.x",
     },
     {
       // Groups Python package patch updates from requirements.txt files
       // Handles: requests 2.28.1 → 2.28.2, boto3 1.26.1 → 1.26.2
-      description: 'Group Python package patch updates (requirements.txt)',
-      matchManagers: [
-        'pip_requirements',
-      ],
-      matchUpdateTypes: [
-        'patch',
-      ],
-      groupName: 'Python dependencies (patch only)',
-      addLabels: [
-        'python-deps',
-      ],
+      description: "Group Python package patch updates (requirements.txt)",
+      matchManagers: ["pip_requirements"],
+      matchUpdateTypes: ["patch"],
+      groupName: "Python dependencies (patch only)",
+      addLabels: ["python-deps"],
     },
     {
       // Groups Poetry package patch updates from pyproject.toml files
       // Handles: fastapi 0.95.1 → 0.95.2, pydantic 1.10.1 → 1.10.2
-      description: 'Group Poetry package patch updates (pyproject.toml)',
-      matchManagers: [
-        'poetry',
-      ],
-      matchUpdateTypes: [
-        'patch',
-      ],
-      groupName: 'Poetry dependencies (patch only)',
-      addLabels: [
-        'poetry',
-      ],
+      description: "Group Poetry package patch updates (pyproject.toml)",
+      matchManagers: ["poetry"],
+      matchUpdateTypes: ["patch"],
+      groupName: "Poetry dependencies (patch only)",
+      addLabels: ["poetry"],
     },
     {
       // Blocks Poetry minor version updates to prevent compatibility issues
       // Prevents: fastapi 0.95.x → 0.96.x, potential breaking changes
-      description: 'Block Poetry minor updates (potential breaking changes)',
-      matchManagers: [
-        'poetry',
-      ],
-      matchUpdateTypes: [
-        'minor',
-      ],
+      description: "Block Poetry minor updates (potential breaking changes)",
+      matchManagers: ["poetry"],
+      matchUpdateTypes: ["minor"],
       enabled: false,
     },
     {
       // Pins Python version in Poetry configuration to 3.11.x
       // Prevents: Python 3.11.x → 3.12.x in pyproject.toml
-      description: 'Pin Python version in Poetry to 3.11.x',
-      matchManagers: [
-        'poetry',
-      ],
-      matchDepNames: [
-        'python',
-      ],
-      allowedVersions: '3.11.x',
+      description: "Pin Python version in Poetry to 3.11.x",
+      matchManagers: ["poetry"],
+      matchDepNames: ["python"],
+      allowedVersions: "3.11.x",
     },
 
     // ===== NODE.JS CONFIGURATION =====
     {
       // Groups npm package minor and patch updates from package.json
       // Handles: express 4.18.1 → 4.18.2, lodash 4.17.20 → 4.17.21
-      description: 'Group npm package updates (minor/patch from package.json)',
-      matchManagers: [
-        'npm',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      groupName: 'Npm dependencies (patch only)',
-      addLabels: [
-        'npm-deps',
-      ],
+      description: "Group npm package updates (minor/patch from package.json)",
+      matchManagers: ["npm"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupName: "Npm dependencies (patch only)",
+      addLabels: ["npm-deps"],
     },
     // ===== DOCKER CONFIGURATION =====
     {
       // Groups Docker base image patch updates from Dockerfiles
       // Handles: node:18.16.0 → node:18.16.1, python:3.11.3 → python:3.11.4
-      description: 'Group Docker image patch updates (Dockerfile)',
-      matchManagers: [
-        'dockerfile',
-      ],
-      matchUpdateTypes: [
-        'patch',
-      ],
-      addLabels: [
-        'docker',
-      ],
-      groupName: 'Dockerfile (patch only)',
+      description: "Group Docker image patch updates (Dockerfile)",
+      matchManagers: ["dockerfile"],
+      matchUpdateTypes: ["patch"],
+      addLabels: ["docker"],
+      groupName: "Dockerfile (patch only)",
     },
 
     // ===== JAVA/MAVEN CONFIGURATION =====
     {
       // Groups Maven dependency minor and patch updates from pom.xml
       // Handles: spring-boot 2.7.1 → 2.7.2, junit 5.8.1 → 5.8.2
-      description: 'Group Maven dependency updates (minor/patch from pom.xml)',
-      matchManagers: [
-        'maven',
-      ],
-      matchUpdateTypes: [
-        'minor',
-        'patch',
-      ],
-      groupName: 'Maven dependencies',
-      addLabels: [
-        'maven-deps',
-      ],
+      description: "Group Maven dependency updates (minor/patch from pom.xml)",
+      matchManagers: ["maven"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupName: "Maven dependencies",
+      addLabels: ["maven-deps"],
     },
 
     // ===== GO CONFIGURATION =====
     {
       // Groups Go module minor and patch updates from go.mod
       // Handles: github.com/gin-gonic/gin v1.9.0 → v1.9.1
-      description: 'Group Go module updates (minor/patch from go.mod)',
-      matchManagers: ['gomod'],
-      matchUpdateTypes: ['minor', 'patch'],
-      groupName: 'Go dependencies (non-major)',
-      addLabels: ['go-deps'],
+      description: "Group Go module updates (minor/patch from go.mod)",
+      matchManagers: ["gomod"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupName: "Go dependencies (non-major)",
+      addLabels: ["go-deps"],
     },
     {
       // Groups Go indirect dependency updates separately
       // Handles: Transitive dependencies that are automatically managed
-      description: 'Group Go indirect dependency updates (transitive deps)',
-      matchManagers: ['gomod'],
-      matchDepTypes: ['indirect'],
-      matchUpdateTypes: ['minor', 'patch'],
-      groupName: 'Go indirect dependencies',
+      description: "Group Go indirect dependency updates (transitive deps)",
+      matchManagers: ["gomod"],
+      matchDepTypes: ["indirect"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupName: "Go indirect dependencies",
     },
     {
       // Groups HashiCorp-specific Go packages
       // Handles: github.com/hashicorp/terraform → github.com/hashicorp/vault
-      description: 'Group HashiCorp Go package updates',
-      matchPackageNames: ['^github.com/hashicorp/'],
-      groupName: 'HashiCorp dependencies',
-      matchUpdateTypes: ['minor', 'patch'],
-      addLabels: ['hashicorp'],
+      description: "Group HashiCorp Go package updates",
+      matchPackageNames: ["^github.com/hashicorp/"],
+      groupName: "HashiCorp dependencies",
+      matchUpdateTypes: ["minor", "patch"],
+      addLabels: ["hashicorp"],
     },
     {
       // Groups Golang standard library extensions
       // Handles: golang.org/x/crypto, golang.org/x/net, golang.org/x/sys
-      description: 'Group Golang standard library extension updates',
-      matchPackageNames: ['^golang.org/x/'],
-      groupName: 'Golang standard library dependencies',
-      matchUpdateTypes: ['minor', 'patch'],
-      addLabels: ['golang-std'],
+      description: "Group Golang standard library extension updates",
+      matchPackageNames: ["^golang.org/x/"],
+      groupName: "Golang standard library dependencies",
+      matchUpdateTypes: ["minor", "patch"],
+      addLabels: ["golang-std"],
     },
     {
       // Sets range strategy for Go require directives
       // Ensures: Proper version constraint handling in go.mod
-      description: 'Use bump strategy for Go require directives',
-      matchDepTypes: ['require'],
-      rangeStrategy: 'bump',
+      description: "Use bump strategy for Go require directives",
+      matchDepTypes: ["require"],
+      rangeStrategy: "bump",
     },
   ],
-  commitMessagePrefix: '⬆️ ',
-  commitMessageAction: 'Update',
-  commitMessageTopic: '{{#if groupName}} {{groupName}} {{else}} {{depName}} {{/if}}',
-  commitMessageExtra: 'to {{newVersion}}',
-  prBodyTemplate: '{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{configDescription}}}{{{controls}}}',
+  commitMessagePrefix: "⬆️ ",
+  commitMessageAction: "Update",
+  commitMessageTopic: "{{#if groupName}} {{groupName}} {{else}} {{depName}} {{/if}}",
+  commitMessageExtra: "to {{newVersion}}",
+  prBodyTemplate: "{{{header}}}{{{table}}}{{{notes}}}{{{changelogs}}}{{{configDescription}}}{{{controls}}}",
 }
