@@ -32,6 +32,14 @@
     },
     {
       customType: "regex",
+      fileMatch: ["(^|/)state\\.tftpl$"],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*required_version\\s*=\\s*"(?<currentValue>[^"]+)"',
+      ],
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+    {
+      customType: "regex",
       managerFilePatterns: [
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
         "/(^|/)action\\.ya?ml$/",
@@ -51,6 +59,7 @@
         "**/.tool-versions",
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
         "/(^|/)action\\.ya?ml$/",
+        "**/state.tftpl",
       ],
       matchUpdateTypes: ["minor", "patch"],
       groupSlug: "tools",
