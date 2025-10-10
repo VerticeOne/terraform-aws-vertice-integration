@@ -32,6 +32,14 @@
     },
     {
       customType: "regex",
+      fileMatch: ["(^|/)state\\.tftpl$"],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*required_version\\s*=\\s*"(?<currentValue>[^"]+)"',
+      ],
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+    {
+      customType: "regex",
       managerFilePatterns: [
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
         "/(^|/)action\\.ya?ml$/",
@@ -51,6 +59,7 @@
         "**/.tool-versions",
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
         "/(^|/)action\\.ya?ml$/",
+        "**/state.tftpl",
       ],
       matchUpdateTypes: ["minor", "patch"],
       groupSlug: "tools",
@@ -130,7 +139,7 @@
       // Handles: requests 2.28.1 → 2.28.2, boto3 1.26.1 → 1.26.2
       description: "Group Python package patch updates (requirements.txt)",
       matchManagers: ["pip_requirements"],
-      matchUpdateTypes: ["patch"],
+      matchUpdateTypes: ["patch", "minor"],
       groupName: "Python dependencies (patch only)",
       addLabels: ["python-deps"],
     },
