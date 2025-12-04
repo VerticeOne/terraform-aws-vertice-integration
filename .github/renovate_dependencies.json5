@@ -9,6 +9,10 @@
   ignorePresets: ["group:terraformMonorepo", "monorepo:terraform"],
   prHourlyLimit: 0,
   prConcurrentLimit: 0,
+  // Default schedule is `before 4am on Monday`
+  lockFileMaintenance: {
+    enabled: true,
+  },
   customManagers: [
     {
       customType: "regex",
