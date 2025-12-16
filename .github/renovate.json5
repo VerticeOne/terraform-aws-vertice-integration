@@ -1,3 +1,4 @@
+// This file is being managed from within https://github.com/VerticeOne/vertice-file-templates, do not edit directly
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   labels: ["renovate"],
