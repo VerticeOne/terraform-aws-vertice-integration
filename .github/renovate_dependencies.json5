@@ -12,8 +12,10 @@
   prConcurrentLimit: 0,
   lockFileMaintenance: {
     enabled: true,
-    // Renovate cron is triggered 1am on Wed
-    schedule: ["before 4am on wednesday"],
+    // Default is "before 4am on monday", our renovate runs 1am on Wednesday (as of now)
+    // We want to run maintenance on every run
+    // (e.g. once a week + manual runs if security vulnerabilities appear)
+    schedule: ["* * * * *"],
   },
   customManagers: [
     {
