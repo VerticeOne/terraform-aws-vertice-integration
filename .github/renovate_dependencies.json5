@@ -40,6 +40,15 @@
     },
     {
       customType: "regex",
+      managerFilePatterns: ["/(^|/)versions\\.hcl$/"],
+      matchStrings: [
+        '#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*[a-z_]+\\s*=\\s*"(?<currentValue>[^"]+)"',
+      ],
+      versioningTemplate: "hashicorp",
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+    {
+      customType: "regex",
       fileMatch: ["(^|/)state\\.tftpl$"],
       matchStrings: [
         '#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*required_version\\s*=\\s*"(?<currentValue>[^"]+)"',
@@ -74,6 +83,18 @@
       commitMessagePrefix: "⬆️ ",
       commitMessageAction: "Update",
       commitMessageTopic: "{{groupName}}",
+      minimumReleaseAge: "5 days",
+    },
+    {
+      // Same groupSlug as the catch-all tools rule above ensures these updates
+      // are batched into the same PR, while matchDepNames scopes it to terraform only
+      description: "Group versions.hcl tool updates (terraform only)",
+      groupName: "tools",
+      addLabels: ["tool-versions"],
+      matchFileNames: ["**/versions.hcl"],
+      matchDepNames: ["hashicorp/terraform"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupSlug: "tools",
       minimumReleaseAge: "5 days",
     },
     // ===== TERRAFORM CONFIGURATION =====
