@@ -2,4 +2,12 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   labels: ["renovate"],
+  minimumReleaseAge: "7 days",
+  packageRules: [
+    {
+      description: "No release age delay for internal @vertice and @verticeone packages",
+      matchPackageNames: ["/^@vertice\\//, /^@verticeone\\//"],
+      minimumReleaseAge: "0 days",
+    },
+  ],
 }
