@@ -83,7 +83,6 @@
       commitMessagePrefix: "⬆️ ",
       commitMessageAction: "Update",
       commitMessageTopic: "{{groupName}}",
-      minimumReleaseAge: "5 days",
     },
     {
       // Same groupSlug as the catch-all tools rule above ensures these updates
@@ -95,7 +94,6 @@
       matchDepNames: ["hashicorp/terraform"],
       matchUpdateTypes: ["minor", "patch"],
       groupSlug: "tools",
-      minimumReleaseAge: "5 days",
     },
     // ===== TERRAFORM CONFIGURATION =====
     {
@@ -115,7 +113,6 @@
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       addLabels: ["terraform"],
       groupSlug: "terraform",
-      minimumReleaseAge: "5 days",
     },
     {
       // Groups custom regex-detected provider updates with standard provider updates
@@ -127,7 +124,6 @@
       matchUpdateTypes: ["minor", "patch", "pin", "digest"],
       addLabels: ["terraform"],
       groupSlug: "terraform",
-      minimumReleaseAge: "5 days",
     },
     {
       // Groups Terraform module updates from Git sources (minor/patch/pin/digest)
