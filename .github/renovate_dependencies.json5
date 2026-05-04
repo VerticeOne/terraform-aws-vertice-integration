@@ -1,6 +1,7 @@
 // This file is being managed from within https://github.com/VerticeOne/vertice-file-templates, do not edit directly
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  configMigration: true,
   branchPrefix: "dependencies/",
   extends: [
     "config:recommended",
@@ -53,6 +54,17 @@
       matchStrings: [
         '#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*required_version\\s*=\\s*"(?<currentValue>[^"]+)"',
       ],
+      extractVersionTemplate: "^v?(?<version>.*)$",
+    },
+    {
+      customType: "regex",
+      managerFilePatterns: ["/.*\\.tf/"],
+      matchStrings: [
+        'source\\s+=\\s+"vertice-cloud\\.net\\/vertice\\/sonarcloud"\\s+version\\s+=\\s+">=\\s*(?<currentValue>[^"]+)',
+      ],
+      datasourceTemplate: "github-release-attachments",
+      depNameTemplate: "VerticeOne/terraform-provider-sonarcloud",
+      depTypeTemplate: "required_provider",
       extractVersionTemplate: "^v?(?<version>.*)$",
     },
     {
@@ -151,6 +163,26 @@
       description: "Block all major version updates (breaking changes)",
       matchUpdateTypes: ["major"],
       enabled: false,
+    },
+
+    // ===== DISABLED PACKAGES =====
+    {
+      description: "Disable updates for specific packages managed outside Renovate",
+      matchPackageNames: [
+        "philips-labs/terraform-aws-github-runner",
+        "vertice/sonarcloud",
+        "integrations/github",
+      ],
+      enabled: false,
+    },
+
+    // ===== GITHUB ACTIONS CONFIGURATION =====
+    {
+      description: "Group GitHub Actions updates (minor/patch)",
+      matchManagers: ["github-actions"],
+      matchUpdateTypes: ["minor", "patch"],
+      groupName: "GitHub Actions",
+      addLabels: ["github-actions"],
     },
 
     // ===== PYTHON CONFIGURATION =====
