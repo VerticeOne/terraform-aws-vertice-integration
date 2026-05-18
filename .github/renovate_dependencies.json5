@@ -183,6 +183,7 @@
       matchUpdateTypes: ["minor", "patch"],
       groupName: "GitHub Actions",
       addLabels: ["github-actions"],
+      commitMessageTopic: "{{groupName}}",
     },
 
     // ===== PYTHON CONFIGURATION =====
