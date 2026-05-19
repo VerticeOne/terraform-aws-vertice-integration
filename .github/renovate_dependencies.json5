@@ -81,9 +81,10 @@
   packageRules: [
     // ===== TOOLS CONFIGURATION =====
     {
-      description: "Group any terraform/terragrunt updates from any manager (catch-all)",
+      description: "Group tool version updates from any managers",
       groupName: "tools",
       addLabels: ["tool-versions"],
+      matchManagers: ["asdf", "custom.regex"],
       matchFileNames: [
         "**/.tool-versions",
         "/(^|/)(workflow-templates|\\.(?:github|gitea|forgejo)/(?:workflows|actions))/.+\\.ya?ml$/",
