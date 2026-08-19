@@ -166,6 +166,21 @@
       enabled: false,
     },
 
+    // ===== FLUX CONFIGURATION =====
+    {
+      // The ARC controller and scale-set charts are released together and must be applied together:
+      // a scale set running a different chart version than its controller is unsupported.
+      description: "Group the actions-runner-controller chart updates into one PR",
+      matchManagers: ["flux"],
+      matchPackageNames: [
+        "ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set",
+        "ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller",
+      ],
+      groupName: "actions-runner-controller",
+      groupSlug: "arc",
+      addLabels: ["flux"],
+    },
+
     // ===== DISABLED PACKAGES =====
     {
       description: "Disable updates for specific packages managed outside Renovate",
