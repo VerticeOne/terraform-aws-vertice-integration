@@ -229,10 +229,19 @@
       addLabels: ["poetry"],
     },
     {
+      // Groups Poetry package patch updates from pyproject.toml files
+      // Handles: fastapi 0.95.1 → 0.95.2, pydantic 1.10.1 → 1.10.2
+      description: "Group pyproject.toml package patch updates",
+      matchManagers: ["pep621"],
+      matchUpdateTypes: ["patch"],
+      groupName: "pyproject.toml dependencies (patch only)",
+      addLabels: ["pyproject.toml"],
+    },
+    {
       // Blocks Poetry minor version updates to prevent compatibility issues
       // Prevents: fastapi 0.95.x → 0.96.x, potential breaking changes
-      description: "Block Poetry minor updates (potential breaking changes)",
-      matchManagers: ["poetry"],
+      description: "Block minor updates (potential breaking changes)",
+      matchManagers: ["poetry", "pep621"],
       matchUpdateTypes: ["minor"],
       enabled: false,
     },
