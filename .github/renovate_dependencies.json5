@@ -203,12 +203,12 @@
 
     // ===== PYTHON CONFIGURATION =====
     {
-      // Pins Python version to 3.11.x in .tool-versions files
-      // Prevents: Python 3.11.5 → 3.12.0, maintains compatibility
-      description: "Pin Python version to 3.11.x (compatibility)",
+      // Pins Python version to 3.12.x in .tool-versions files
+      // Prevents: Python 3.12.12 → 3.13.0, maintains compatibility
+      description: "Pin Python version to 3.12.x (compatibility)",
       matchFileNames: ["**/.tool-versions"],
       matchDepNames: ["python"],
-      allowedVersions: "3.11.x",
+      allowedVersions: "3.12.x",
     },
     {
       // Groups Python package patch updates from requirements.txt files
